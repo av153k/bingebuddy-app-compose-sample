@@ -1,9 +1,20 @@
+
+val envFile = File(rootProject.projectDir, ".env")
+val envMap = envFile.readLines()
+    .filter { it.isNotBlank() && !it.startsWith("#") }
+    .associate {
+        val (key, value) = it.split("=", limit = 2)
+        key to value
+    }
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization.compiler)
 }
 
 android {
@@ -18,6 +29,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY", "\"${envMap["tmdbApiKey"]}\"")
     }
 
     buildTypes {
@@ -55,7 +67,9 @@ dependencies {
 
     // Retrofit
     implementation(libs.retrofit.core)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.retrofit.kotlin.serialization)
+    implementation(libs.kotlinx.serialization.json)
 
     // Hilt
     implementation(libs.hilt.android.core)
