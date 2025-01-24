@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.bingebuddy.app.navigation.BingeBuddyNavGraph
 import com.bingebuddy.app.network.TmdbApiService
 import com.bingebuddy.app.ui.screens.home.HomeScreen
 
@@ -21,11 +22,10 @@ class BingeBuddyActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.tag(TAG).d("Api key - ${BuildConfig.API_KEY}")
         enableEdgeToEdge()
         setContent {
             BingeBuddyTheme {
-                HomeScreen()
+                BingeBuddyNavGraph()
             }
         }
     }
