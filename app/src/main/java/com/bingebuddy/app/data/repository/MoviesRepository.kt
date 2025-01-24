@@ -13,4 +13,10 @@ class MoviesRepository @Inject constructor(
 
     suspend fun getNowPlayingMovies(): DiscoverResponseModel = tmdbApiService.getNowPlayingMovies()
 
+    suspend fun getPopularMovies(): DiscoverResponseModel = tmdbApiService.getPopularMovies()
+
+    suspend fun getTopRatedMovies(): DiscoverResponseModel = tmdbApiService.getTopRatedMovies()
+
+    suspend fun getUpcomingMovies(): DiscoverResponseModel = tmdbApiService.getUpcomingMovies()
+
 }

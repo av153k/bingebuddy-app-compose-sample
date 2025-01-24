@@ -1,6 +1,5 @@
-package com.bingebuddy.app.ui.screens.nowplaying
+package com.bingebuddy.app.ui.screens.nowplayingmovies
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,19 +16,19 @@ import javax.inject.Inject
 
 const val TAG = "NowPlayingViewModel"
 
-sealed interface NowPlayingUiState {
-    data class Success(val movies: List<DiscoverMovieResultModel>) : NowPlayingUiState
-    data object Error : NowPlayingUiState
-    data object Loading : NowPlayingUiState
+sealed interface NowPlayingMoviesUiState {
+    data class Success(val movies: List<DiscoverMovieResultModel>) : NowPlayingMoviesUiState
+    data object Error : NowPlayingMoviesUiState
+    data object Loading : NowPlayingMoviesUiState
 }
 
 
 @HiltViewModel
-class NowPlayingViewmodel @Inject constructor(
+class NowPlayingMoviesViewmodel @Inject constructor(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
-    var uiState: NowPlayingUiState by mutableStateOf(NowPlayingUiState.Loading)
+    var uiState: NowPlayingMoviesUiState by mutableStateOf(NowPlayingMoviesUiState.Loading)
         private set
 
     init {
@@ -38,18 +37,18 @@ class NowPlayingViewmodel @Inject constructor(
 
     fun getNowPlayingMovies() {
         viewModelScope.launch {
-            uiState = NowPlayingUiState.Loading
+            uiState = NowPlayingMoviesUiState.Loading
             uiState = try {
                 val discoverResult = moviesRepository.getNowPlayingMovies()
-                NowPlayingUiState.Success(
+                NowPlayingMoviesUiState.Success(
                     movies = discoverResult.results ?: listOf()
                 )
             } catch (e: IOException) {
                 Timber.tag(TAG).e(e)
-                NowPlayingUiState.Error
+                NowPlayingMoviesUiState.Error
             } catch (e: HttpException) {
                 Timber.tag(TAG).e(e)
-                NowPlayingUiState.Error
+                NowPlayingMoviesUiState.Error
             }
         }
     }

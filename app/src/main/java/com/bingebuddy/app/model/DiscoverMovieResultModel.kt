@@ -16,7 +16,7 @@ data class DiscoverMovieResultModel (
     val id: Long? = null,
 
     @SerialName("original_language")
-    val originalLanguage: OriginalLanguage? = null,
+    val originalLanguage: String? = null,
 
     @SerialName("original_title")
     val originalTitle: String? = null,
@@ -40,10 +40,3 @@ data class DiscoverMovieResultModel (
     val voteCount: Long? = null
 )
 
-@Serializable
-enum class OriginalLanguage(val value: String) {
-    @SerialName("en") En("en"),
-    @SerialName("es") Es("es"),
-    @SerialName("fr") Fr("fr"),
-    @SerialName("lv") LV("lv");
-}

@@ -1,4 +1,4 @@
-package com.bingebuddy.app.ui.screens.nowplaying
+package com.bingebuddy.app.ui.screens.nowplayingmovies
 
 import androidx.compose.runtime.Composable
 

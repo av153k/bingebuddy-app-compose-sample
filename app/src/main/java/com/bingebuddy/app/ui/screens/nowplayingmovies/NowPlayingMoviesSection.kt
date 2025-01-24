@@ -1,10 +1,9 @@
-package com.bingebuddy.app.ui.screens.nowplaying
+package com.bingebuddy.app.ui.screens.nowplayingmovies
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,29 +16,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bingebuddy.app.model.DiscoverMovieResultModel
 import com.bingebuddy.app.ui.components.DiscoverMovieListCard
 import com.bingebuddy.app.ui.components.DiscoverMovieListShimmerCard
 
 @Composable
-fun NowPlayingSection(
+fun NowPlayingMoviesSection(
     modifier: Modifier = Modifier,
-    nowPlayingViewmodel: NowPlayingViewmodel = hiltViewModel(),
+    viewmodel: NowPlayingMoviesViewmodel = hiltViewModel(),
 ) {
     Box(modifier = modifier.height(380.dp).fillMaxWidth()) {
-        when (val uiState = nowPlayingViewmodel.uiState) {
-            is NowPlayingUiState.Success -> ResultView(
+        when (val uiState = viewmodel.uiState) {
+            is NowPlayingMoviesUiState.Success -> ResultView(
                 movies = uiState.movies
             )
 
-            is NowPlayingUiState.Error -> RetryView(
-                onRetry = nowPlayingViewmodel::getNowPlayingMovies
+            is NowPlayingMoviesUiState.Error -> RetryView(
+                onRetry = viewmodel::getNowPlayingMovies
             )
-            is NowPlayingUiState.Loading -> LoadingView()
+            is NowPlayingMoviesUiState.Loading -> LoadingView()
         }
     }
 
