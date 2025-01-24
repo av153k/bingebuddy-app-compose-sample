@@ -6,10 +6,10 @@ import kotlinx.serialization.*
 
 
 @Serializable
-data class DiscoverResponseModel (
+data class DiscoverResponseModel<T> (
     val dates: Dates? = null,
     val page: Long? = null,
-    val results: List<DiscoverMovieResultModel>? = null,
+    val results: List<T>? = null,
 
     @SerialName("total_pages")
     val totalPages: Long? = null,

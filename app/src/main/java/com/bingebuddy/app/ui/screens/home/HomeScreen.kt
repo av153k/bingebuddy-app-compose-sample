@@ -20,6 +20,7 @@ import com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies.NowPlayingM
 import com.bingebuddy.app.ui.screens.discovermovies.popularmovies.PopularMoviesSection
 import com.bingebuddy.app.ui.screens.discovermovies.topratedmovies.TopRatedMoviesSection
 import com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies.UpcomingMoviesSection
+import com.bingebuddy.app.ui.screens.discovertvseries.DiscoverTvSeriesScreen
 
 @Composable
 fun HomeScreen(
@@ -46,34 +47,7 @@ fun HomeScreen(
 
 @Composable
 fun HomeScreenContent(modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier.padding(10.dp)) {
-        item {
-            NowPlayingMoviesSection()
-        }
-        item {
-            Spacer(Modifier.height(10.dp))
-        }
-        item {
-            PopularMoviesSection()
-        }
-        item {
-            Spacer(Modifier.height(10.dp))
-        }
-        item {
-            TopRatedMoviesSection()
-        }
-        item {
-            Spacer(Modifier.height(10.dp))
-        }
-        item {
-            UpcomingMoviesSection()
-        }
-        item {
-            Spacer(Modifier.height(10.dp))
-        }
-
-
-    }
+    DiscoverTvSeriesScreen(modifier = modifier)
 }
 
 

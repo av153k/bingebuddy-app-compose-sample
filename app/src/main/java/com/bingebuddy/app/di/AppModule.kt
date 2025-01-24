@@ -1,6 +1,7 @@
 package com.bingebuddy.app.di
 
 import com.bingebuddy.app.data.repository.MoviesRepository
+import com.bingebuddy.app.data.repository.TvSeriesRepository
 import com.bingebuddy.app.network.ApiKeyInterceptor
 import com.bingebuddy.app.network.TmdbApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -42,6 +43,9 @@ object AppModule {
 
     @Provides
     fun provideMovieRepository(apiService: TmdbApiService) = MoviesRepository(tmdbApiService = apiService)
+
+    @Provides
+    fun provideTvSeriesRepository(apiService: TmdbApiService) = TvSeriesRepository(tmdbApiService = apiService)
 }
 
 
