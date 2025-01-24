@@ -1,4 +1,4 @@
-package com.bingebuddy.app.ui.screens.popularmovies
+package com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies
 
 
 import androidx.compose.runtime.getValue
@@ -15,41 +15,41 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-const val TAG = "PopularMoviesViewModel"
+const val TAG = "UpcomingMoviesViewModel"
 
-sealed interface PopularMoviesUiState {
-    data class Success(val movies: List<DiscoverMovieResultModel>) : PopularMoviesUiState
-    data object Error : PopularMoviesUiState
-    data object Loading : PopularMoviesUiState
+sealed interface UpcomingMoviesUiState {
+    data class Success(val movies: List<DiscoverMovieResultModel>) : UpcomingMoviesUiState
+    data object Error : UpcomingMoviesUiState
+    data object Loading : UpcomingMoviesUiState
 }
 
 
 @HiltViewModel
-class PopularMoviesViewmodel @Inject constructor(
+class UpcomingMoviesViewmodel @Inject constructor(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
-    var uiState: PopularMoviesUiState by mutableStateOf(PopularMoviesUiState.Loading)
+    var uiState: UpcomingMoviesUiState by mutableStateOf(UpcomingMoviesUiState.Loading)
         private set
 
     init {
-        getPopularMovies()
+        getUpcomingMovies()
     }
 
-    fun getPopularMovies() {
+    fun getUpcomingMovies() {
         viewModelScope.launch {
-            uiState = PopularMoviesUiState.Loading
+            uiState = UpcomingMoviesUiState.Loading
             uiState = try {
-                val discoverResult = moviesRepository.getPopularMovies()
-                PopularMoviesUiState.Success(
+                val discoverResult = moviesRepository.getUpcomingMovies()
+                UpcomingMoviesUiState.Success(
                     movies = discoverResult.results ?: listOf()
                 )
             } catch (e: IOException) {
                 Timber.tag(TAG).e(e)
-                PopularMoviesUiState.Error
+                UpcomingMoviesUiState.Error
             } catch (e: HttpException) {
                 Timber.tag(TAG).e(e)
-                PopularMoviesUiState.Error
+                UpcomingMoviesUiState.Error
             }
         }
     }

@@ -1,11 +1,4 @@
-package com.bingebuddy.app.ui.screens.topratedmovies
-
-import com.bingebuddy.app.ui.screens.upcomingmovies.UpcomingMoviesUiState
-import com.bingebuddy.app.ui.screens.upcomingmovies.UpcomingMoviesViewmodel
-
-
-import com.bingebuddy.app.ui.screens.nowplayingmovies.NowPlayingMoviesUiState
-import com.bingebuddy.app.ui.screens.nowplayingmovies.NowPlayingMoviesViewmodel
+package com.bingebuddy.app.ui.screens.discovermovies.popularmovies
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -29,22 +22,23 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.model.DiscoverMovieResultModel
 import com.bingebuddy.app.ui.components.DiscoverMovieListCard
 import com.bingebuddy.app.ui.components.DiscoverMovieListShimmerCard
+import com.bingebuddy.app.ui.theme.Dimension
 
 @Composable
-fun TopRatedMoviesSection(
+fun PopularMoviesSection(
     modifier: Modifier = Modifier,
-    viewmodel: TopRatedMoviesViewmodel = hiltViewModel(),
+    viewmodel: PopularMoviesViewmodel = hiltViewModel(),
 ) {
-    Box(modifier = modifier.height(380.dp).fillMaxWidth()) {
+    Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
-            is TopRatedMoviesUiState.Success -> ResultView(
+            is PopularMoviesUiState.Success -> ResultView(
                 movies = uiState.movies
             )
 
-            is TopRatedMoviesUiState.Error -> RetryView(
-                onRetry = viewmodel::getTopRatedMovies
+            is PopularMoviesUiState.Error -> RetryView(
+                onRetry = viewmodel::getPopularMovies
             )
-            is TopRatedMoviesUiState.Loading -> LoadingView()
+            is PopularMoviesUiState.Loading -> LoadingView()
         }
     }
 
@@ -53,7 +47,7 @@ fun TopRatedMoviesSection(
 @Composable
 fun ResultView(movies: List<DiscoverMovieResultModel>, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Text("Top Rated", style = MaterialTheme.typography.headlineSmall)
+        Text("Popular", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
         LazyHorizontalGrid(
             rows = GridCells.Fixed(1)
@@ -70,7 +64,7 @@ fun RetryView(
     onRetry: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Text("Top Rated", style = MaterialTheme.typography.headlineSmall)
+        Text("Popular", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(100.dp))
         Column (
             modifier = Modifier.fillMaxSize(),
@@ -91,7 +85,7 @@ fun RetryView(
 @Composable
 fun LoadingView(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Text("Top Rated", style = MaterialTheme.typography.headlineSmall)
+        Text("Popular", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
         LazyHorizontalGrid(
             rows = GridCells.Fixed(1)

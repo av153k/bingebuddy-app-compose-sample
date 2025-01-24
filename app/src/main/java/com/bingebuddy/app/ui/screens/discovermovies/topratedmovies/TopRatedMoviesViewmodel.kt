@@ -1,4 +1,6 @@
-package com.bingebuddy.app.ui.screens.nowplayingmovies
+package com.bingebuddy.app.ui.screens.discovermovies.topratedmovies
+
+
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,41 +16,41 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-const val TAG = "NowPlayingViewModel"
+const val TAG = "TopRatedMoviesViewModel"
 
-sealed interface NowPlayingMoviesUiState {
-    data class Success(val movies: List<DiscoverMovieResultModel>) : NowPlayingMoviesUiState
-    data object Error : NowPlayingMoviesUiState
-    data object Loading : NowPlayingMoviesUiState
+sealed interface TopRatedMoviesUiState {
+    data class Success(val movies: List<DiscoverMovieResultModel>) : TopRatedMoviesUiState
+    data object Error : TopRatedMoviesUiState
+    data object Loading : TopRatedMoviesUiState
 }
 
 
 @HiltViewModel
-class NowPlayingMoviesViewmodel @Inject constructor(
+class TopRatedMoviesViewmodel @Inject constructor(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
-    var uiState: NowPlayingMoviesUiState by mutableStateOf(NowPlayingMoviesUiState.Loading)
+    var uiState: TopRatedMoviesUiState by mutableStateOf(TopRatedMoviesUiState.Loading)
         private set
 
     init {
-        getNowPlayingMovies()
+        getTopRatedMovies()
     }
 
-    fun getNowPlayingMovies() {
+    fun getTopRatedMovies() {
         viewModelScope.launch {
-            uiState = NowPlayingMoviesUiState.Loading
+            uiState = TopRatedMoviesUiState.Loading
             uiState = try {
-                val discoverResult = moviesRepository.getNowPlayingMovies()
-                NowPlayingMoviesUiState.Success(
+                val discoverResult = moviesRepository.getTopRatedMovies()
+                TopRatedMoviesUiState.Success(
                     movies = discoverResult.results ?: listOf()
                 )
             } catch (e: IOException) {
                 Timber.tag(TAG).e(e)
-                NowPlayingMoviesUiState.Error
+                TopRatedMoviesUiState.Error
             } catch (e: HttpException) {
                 Timber.tag(TAG).e(e)
-                NowPlayingMoviesUiState.Error
+                TopRatedMoviesUiState.Error
             }
         }
     }

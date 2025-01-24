@@ -1,4 +1,12 @@
 package com.bingebuddy.app.data.repository
 
-class TvSeriesRepository {
+import com.bingebuddy.app.network.TmdbApiService
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class TvSeriesRepository @Inject constructor(
+    private val tmdbApiService: TmdbApiService
+) {
+
 }

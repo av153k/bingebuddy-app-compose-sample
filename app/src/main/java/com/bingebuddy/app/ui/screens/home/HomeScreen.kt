@@ -16,11 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.bingebuddy.app.ui.screens.nowplayingmovies.NowPlayingMoviesSection
-import com.bingebuddy.app.ui.screens.popularmovies.PopularMoviesSection
-import com.bingebuddy.app.ui.screens.popularmovies.PopularMoviesViewmodel
-import com.bingebuddy.app.ui.screens.topratedmovies.TopRatedMoviesSection
-import com.bingebuddy.app.ui.screens.upcomingmovies.UpcomingMoviesSection
+import com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies.NowPlayingMoviesSection
+import com.bingebuddy.app.ui.screens.discovermovies.popularmovies.PopularMoviesSection
+import com.bingebuddy.app.ui.screens.discovermovies.topratedmovies.TopRatedMoviesSection
+import com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies.UpcomingMoviesSection
 
 @Composable
 fun HomeScreen(

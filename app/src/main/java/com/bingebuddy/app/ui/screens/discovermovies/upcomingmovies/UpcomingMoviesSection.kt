@@ -1,7 +1,7 @@
-package com.bingebuddy.app.ui.screens.upcomingmovies
+package com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies
 
-import com.bingebuddy.app.ui.screens.nowplayingmovies.NowPlayingMoviesUiState
-import com.bingebuddy.app.ui.screens.nowplayingmovies.NowPlayingMoviesViewmodel
+import com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies.NowPlayingMoviesUiState
+import com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies.NowPlayingMoviesViewmodel
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -25,13 +25,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.model.DiscoverMovieResultModel
 import com.bingebuddy.app.ui.components.DiscoverMovieListCard
 import com.bingebuddy.app.ui.components.DiscoverMovieListShimmerCard
+import com.bingebuddy.app.ui.theme.Dimension
 
 @Composable
 fun UpcomingMoviesSection(
     modifier: Modifier = Modifier,
     viewmodel: UpcomingMoviesViewmodel = hiltViewModel(),
 ) {
-    Box(modifier = modifier.height(380.dp).fillMaxWidth()) {
+    Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
             is UpcomingMoviesUiState.Success -> ResultView(
                 movies = uiState.movies

@@ -1,8 +1,4 @@
-package com.bingebuddy.app.ui.screens.popularmovies
-
-import com.bingebuddy.app.ui.screens.nowplayingmovies.NowPlayingMoviesUiState
-import com.bingebuddy.app.ui.screens.nowplayingmovies.NowPlayingMoviesViewmodel
-
+package com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,22 +21,23 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.model.DiscoverMovieResultModel
 import com.bingebuddy.app.ui.components.DiscoverMovieListCard
 import com.bingebuddy.app.ui.components.DiscoverMovieListShimmerCard
+import com.bingebuddy.app.ui.theme.Dimension
 
 @Composable
-fun PopularMoviesSection(
+fun NowPlayingMoviesSection(
     modifier: Modifier = Modifier,
-    viewmodel: PopularMoviesViewmodel = hiltViewModel(),
+    viewmodel: NowPlayingMoviesViewmodel = hiltViewModel(),
 ) {
-    Box(modifier = modifier.height(380.dp).fillMaxWidth()) {
+    Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
-            is PopularMoviesUiState.Success -> ResultView(
+            is NowPlayingMoviesUiState.Success -> ResultView(
                 movies = uiState.movies
             )
 
-            is PopularMoviesUiState.Error -> RetryView(
-                onRetry = viewmodel::getPopularMovies
+            is NowPlayingMoviesUiState.Error -> RetryView(
+                onRetry = viewmodel::getNowPlayingMovies
             )
-            is PopularMoviesUiState.Loading -> LoadingView()
+            is NowPlayingMoviesUiState.Loading -> LoadingView()
         }
     }
 
@@ -49,7 +46,7 @@ fun PopularMoviesSection(
 @Composable
 fun ResultView(movies: List<DiscoverMovieResultModel>, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Text("Popular", style = MaterialTheme.typography.headlineSmall)
+        Text("Now Playing", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
         LazyHorizontalGrid(
             rows = GridCells.Fixed(1)
@@ -66,7 +63,7 @@ fun RetryView(
     onRetry: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Text("Popular", style = MaterialTheme.typography.headlineSmall)
+        Text("Now Playing", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(100.dp))
         Column (
             modifier = Modifier.fillMaxSize(),
@@ -87,7 +84,7 @@ fun RetryView(
 @Composable
 fun LoadingView(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Text("Popular", style = MaterialTheme.typography.headlineSmall)
+        Text("Now Playing", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
         LazyHorizontalGrid(
             rows = GridCells.Fixed(1)

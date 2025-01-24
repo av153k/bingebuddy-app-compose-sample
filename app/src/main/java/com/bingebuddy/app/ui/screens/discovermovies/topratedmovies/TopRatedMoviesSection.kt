@@ -1,4 +1,12 @@
-package com.bingebuddy.app.ui.screens.nowplayingmovies
+package com.bingebuddy.app.ui.screens.discovermovies.topratedmovies
+
+import com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies.UpcomingMoviesUiState
+import com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies.UpcomingMoviesViewmodel
+
+
+import com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies.NowPlayingMoviesUiState
+import com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies.NowPlayingMoviesViewmodel
+
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,22 +29,23 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.model.DiscoverMovieResultModel
 import com.bingebuddy.app.ui.components.DiscoverMovieListCard
 import com.bingebuddy.app.ui.components.DiscoverMovieListShimmerCard
+import com.bingebuddy.app.ui.theme.Dimension
 
 @Composable
-fun NowPlayingMoviesSection(
+fun TopRatedMoviesSection(
     modifier: Modifier = Modifier,
-    viewmodel: NowPlayingMoviesViewmodel = hiltViewModel(),
+    viewmodel: TopRatedMoviesViewmodel = hiltViewModel(),
 ) {
-    Box(modifier = modifier.height(380.dp).fillMaxWidth()) {
+    Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
-            is NowPlayingMoviesUiState.Success -> ResultView(
+            is TopRatedMoviesUiState.Success -> ResultView(
                 movies = uiState.movies
             )
 
-            is NowPlayingMoviesUiState.Error -> RetryView(
-                onRetry = viewmodel::getNowPlayingMovies
+            is TopRatedMoviesUiState.Error -> RetryView(
+                onRetry = viewmodel::getTopRatedMovies
             )
-            is NowPlayingMoviesUiState.Loading -> LoadingView()
+            is TopRatedMoviesUiState.Loading -> LoadingView()
         }
     }
 
@@ -45,7 +54,7 @@ fun NowPlayingMoviesSection(
 @Composable
 fun ResultView(movies: List<DiscoverMovieResultModel>, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Text("Now Playing", style = MaterialTheme.typography.headlineSmall)
+        Text("Top Rated", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
         LazyHorizontalGrid(
             rows = GridCells.Fixed(1)
@@ -62,7 +71,7 @@ fun RetryView(
     onRetry: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Text("Now Playing", style = MaterialTheme.typography.headlineSmall)
+        Text("Top Rated", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(100.dp))
         Column (
             modifier = Modifier.fillMaxSize(),
@@ -83,7 +92,7 @@ fun RetryView(
 @Composable
 fun LoadingView(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Text("Now Playing", style = MaterialTheme.typography.headlineSmall)
+        Text("Top Rated", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
         LazyHorizontalGrid(
             rows = GridCells.Fixed(1)
