@@ -26,13 +26,15 @@ import com.bingebuddy.app.ui.theme.Dimension
 
 @Composable
 fun TopRatedTvSeriesSection(
+    onTvSeriesClicked: (tvSeriesId: String) -> Unit,
     modifier: Modifier = Modifier,
     viewmodel: TopRatedTvSeriesViewmodel = hiltViewModel(),
 ) {
     Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
             is TopRatedTvSeriesUiState.Success -> ResultView(
-                movies = uiState.tvSeries
+                tvSeriesList = uiState.tvSeriesList,
+                onTvSeriesClicked = onTvSeriesClicked,
             )
 
             is TopRatedTvSeriesUiState.Error -> RetryView(
@@ -45,15 +47,15 @@ fun TopRatedTvSeriesSection(
 }
 
 @Composable
-private fun ResultView(movies: List<DiscoverTvSeriesResultModel>, modifier: Modifier = Modifier) {
+private fun ResultView(tvSeriesList: List<DiscoverTvSeriesResultModel>,    onTvSeriesClicked: (tvSeriesId: String) -> Unit, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text("Top Rated", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
         LazyHorizontalGrid(
             rows = GridCells.Fixed(1)
         ) {
-            items(movies) {
-                DiscoverTvSeriesListCard(it)
+            items(tvSeriesList) {
+                DiscoverTvSeriesListCard(it, onTvSeriesClicked)
             }
         }
     }

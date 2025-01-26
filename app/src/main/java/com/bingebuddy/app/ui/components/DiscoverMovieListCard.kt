@@ -1,6 +1,7 @@
 package com.bingebuddy.app.ui.components
 
 import android.icu.text.DecimalFormat
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,11 +25,14 @@ import com.bingebuddy.app.model.DiscoverMovieResultModel
 
 
 @Composable
-fun DiscoverMovieListCard(movie: DiscoverMovieResultModel, modifier: Modifier = Modifier) {
+fun DiscoverMovieListCard(movie: DiscoverMovieResultModel, modifier: Modifier = Modifier, onClick: (movieId: String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)
             .width(170.dp)
+            .clickable {
+                onClick("${movie.id}")
+            }
     ) {
         Column(
             modifier = Modifier.padding(5.dp),

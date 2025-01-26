@@ -13,28 +13,28 @@ import com.bingebuddy.app.ui.screens.discovermovies.topratedmovies.TopRatedMovie
 import com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies.UpcomingMoviesSection
 
 @Composable
-fun DiscoverMoviesScreen(modifier: Modifier = Modifier) {
+fun DiscoverMoviesScreen(onMovieClicked: (movieId: String) -> Unit,  modifier: Modifier = Modifier,) {
     LazyColumn(modifier = modifier.padding(10.dp)) {
         item {
-            NowPlayingMoviesSection()
+            NowPlayingMoviesSection(onMovieClick = onMovieClicked)
         }
         item {
             Spacer(Modifier.height(10.dp))
         }
         item {
-            PopularMoviesSection()
+            PopularMoviesSection(onMovieClick = onMovieClicked)
         }
         item {
             Spacer(Modifier.height(10.dp))
         }
         item {
-            TopRatedMoviesSection()
+            TopRatedMoviesSection(onMovieClick = onMovieClicked)
         }
         item {
             Spacer(Modifier.height(10.dp))
         }
         item {
-            UpcomingMoviesSection()
+            UpcomingMoviesSection(onMovieClick = onMovieClicked)
         }
         item {
             Spacer(Modifier.height(10.dp))

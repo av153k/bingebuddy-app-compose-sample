@@ -34,12 +34,14 @@ import com.bingebuddy.app.ui.theme.Dimension
 @Composable
 fun TopRatedMoviesSection(
     modifier: Modifier = Modifier,
+    onMovieClick : (movieId: String) -> Unit,
     viewmodel: TopRatedMoviesViewmodel = hiltViewModel(),
 ) {
     Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
             is TopRatedMoviesUiState.Success -> ResultView(
-                movies = uiState.movies
+                movies = uiState.movies,
+                onMovieClick = onMovieClick,
             )
 
             is TopRatedMoviesUiState.Error -> RetryView(
@@ -52,7 +54,7 @@ fun TopRatedMoviesSection(
 }
 
 @Composable
-fun ResultView(movies: List<DiscoverMovieResultModel>, modifier: Modifier = Modifier) {
+fun ResultView(movies: List<DiscoverMovieResultModel>, onMovieClick : (movieId: String) -> Unit, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text("Top Rated", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
@@ -60,7 +62,7 @@ fun ResultView(movies: List<DiscoverMovieResultModel>, modifier: Modifier = Modi
             rows = GridCells.Fixed(1)
         ) {
             items(movies) {
-                DiscoverMovieListCard(it)
+                DiscoverMovieListCard(it, onClick = onMovieClick)
             }
         }
     }

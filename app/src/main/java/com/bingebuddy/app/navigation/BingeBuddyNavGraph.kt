@@ -7,14 +7,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bingebuddy.app.ui.screens.home.BingeBuddyDrawer
 import com.bingebuddy.app.ui.screens.home.HomeScreen
+import com.bingebuddy.app.ui.screens.moviedetails.MovieDetailScreen
+import com.bingebuddy.app.ui.screens.tvseriesdetails.TvSeriesDetailScreen
 import kotlinx.coroutines.CoroutineScope
+import timber.log.Timber
 
 @Composable
 fun BingeBuddyNavGraph(
@@ -22,7 +24,7 @@ fun BingeBuddyNavGraph(
     navHostController: NavHostController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     drawerState: DrawerState = rememberDrawerState(DrawerValue.Closed),
-    startDestination: String = BingeBuddyRoutes.HOME_ROUTE,
+    startDestination: String = BingeBuddyScreens.Home.route,
     navActions: BingeBuddyNavigationActions = remember(navHostController) {
         BingeBuddyNavigationActions(navHostController)
     }
@@ -38,8 +40,29 @@ fun BingeBuddyNavGraph(
             BingeBuddyDrawer(
                 drawerState = drawerState
             ) {
-                HomeScreen()
+                HomeScreen(
+                    navigateTo = {
+                        navHostController.navigate(it)
+                    }
+                )
             }
+        }
+
+        composable(BingeBuddyRoutes.MOVIE_DETAILS_ROUTE) { entry ->
+            MovieDetailScreen(
+                navigateTo = { it ->
+                    Timber.d(it)
+                },
+                navigateUp = { navHostController.navigateUp() }
+            )
+
+        }
+
+        composable(BingeBuddyRoutes.TV_SERIES_DETAIL_ROUTE) { entry ->
+            TvSeriesDetailScreen(navigateTo = { it ->
+                Timber.d(it)
+            },
+                navigateUp = { navHostController.navigateUp() })
         }
     }
 

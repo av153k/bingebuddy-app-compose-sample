@@ -27,11 +27,13 @@ import com.bingebuddy.app.ui.theme.Dimension
 fun NowPlayingMoviesSection(
     modifier: Modifier = Modifier,
     viewmodel: NowPlayingMoviesViewmodel = hiltViewModel(),
+    onMovieClick : (movieId: String) -> Unit,
 ) {
     Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
             is NowPlayingMoviesUiState.Success -> ResultView(
                 movies = uiState.movies
+                , onMovieClick = onMovieClick,
             )
 
             is NowPlayingMoviesUiState.Error -> RetryView(
@@ -44,7 +46,7 @@ fun NowPlayingMoviesSection(
 }
 
 @Composable
-fun ResultView(movies: List<DiscoverMovieResultModel>, modifier: Modifier = Modifier) {
+fun ResultView(movies: List<DiscoverMovieResultModel>, onMovieClick : (movieId: String) -> Unit, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text("Now Playing", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
@@ -52,7 +54,7 @@ fun ResultView(movies: List<DiscoverMovieResultModel>, modifier: Modifier = Modi
             rows = GridCells.Fixed(1)
         ) {
             items(movies) {
-                DiscoverMovieListCard(it)
+                DiscoverMovieListCard(it, onClick = onMovieClick)
             }
         }
     }

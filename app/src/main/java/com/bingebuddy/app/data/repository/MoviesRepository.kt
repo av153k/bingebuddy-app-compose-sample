@@ -2,6 +2,7 @@ package com.bingebuddy.app.data.repository
 
 import com.bingebuddy.app.data.model.DiscoverResponseModel
 import com.bingebuddy.app.model.DiscoverMovieResultModel
+import com.bingebuddy.app.model.MovieDetailsModel
 import com.bingebuddy.app.network.TmdbApiService
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,5 +20,7 @@ class MoviesRepository @Inject constructor(
     suspend fun getTopRatedMovies(): DiscoverResponseModel<DiscoverMovieResultModel> = tmdbApiService.getTopRatedMovies()
 
     suspend fun getUpcomingMovies(): DiscoverResponseModel<DiscoverMovieResultModel> = tmdbApiService.getUpcomingMovies()
+
+    suspend fun getMovieDetails(movieId: String): MovieDetailsModel = tmdbApiService.getMovieDetails(movieId)
 
 }

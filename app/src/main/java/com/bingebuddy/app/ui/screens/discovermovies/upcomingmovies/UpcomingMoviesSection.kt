@@ -30,12 +30,14 @@ import com.bingebuddy.app.ui.theme.Dimension
 @Composable
 fun UpcomingMoviesSection(
     modifier: Modifier = Modifier,
+    onMovieClick : (movieId: String) -> Unit,
     viewmodel: UpcomingMoviesViewmodel = hiltViewModel(),
 ) {
     Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
             is UpcomingMoviesUiState.Success -> ResultView(
-                movies = uiState.movies
+                movies = uiState.movies,
+                onMovieClick = onMovieClick
             )
 
             is UpcomingMoviesUiState.Error -> RetryView(
@@ -48,7 +50,7 @@ fun UpcomingMoviesSection(
 }
 
 @Composable
-fun ResultView(movies: List<DiscoverMovieResultModel>, modifier: Modifier = Modifier) {
+fun ResultView(movies: List<DiscoverMovieResultModel>, onMovieClick : (movieId: String) -> Unit, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text("Upcoming", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
@@ -56,7 +58,7 @@ fun ResultView(movies: List<DiscoverMovieResultModel>, modifier: Modifier = Modi
             rows = GridCells.Fixed(1)
         ) {
             items(movies) {
-                DiscoverMovieListCard(it)
+                DiscoverMovieListCard(it, onClick = onMovieClick)
             }
         }
     }

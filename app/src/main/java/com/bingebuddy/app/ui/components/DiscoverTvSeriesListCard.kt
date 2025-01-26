@@ -2,6 +2,7 @@ package com.bingebuddy.app.ui.components
 
 
 import android.icu.text.DecimalFormat
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,11 +26,18 @@ import com.bingebuddy.app.model.DiscoverTvSeriesResultModel
 
 
 @Composable
-fun DiscoverTvSeriesListCard(tvSeries: DiscoverTvSeriesResultModel, modifier: Modifier = Modifier) {
+fun DiscoverTvSeriesListCard(
+    tvSeries: DiscoverTvSeriesResultModel,
+    onTvSeriesClicked: (tvSeriesId: String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(
         modifier = Modifier
             .padding(8.dp)
             .width(170.dp)
+            .clickable {
+                onTvSeriesClicked("${tvSeries.id}")
+            }
     ) {
         Column(
             modifier = Modifier.padding(5.dp),

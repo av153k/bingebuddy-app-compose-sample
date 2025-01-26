@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 object AppModule {
 
     @Provides
-    fun provideBaseUrl(): String = "https://api.themoviedb.org/3/"
+    fun provideBaseUrl(): String = "https://dmm7vyhwyql4uk62.vercel.app/api/tmdb/"
 
     @Provides
     fun provideRetrofit(baseUrl: String): Retrofit {
@@ -39,13 +39,17 @@ object AppModule {
 
 
     @Provides
-    fun provideTmdbApiService(retrofit: Retrofit) : TmdbApiService = retrofit.create(TmdbApiService::class.java)
+    fun provideTmdbApiService(retrofit: Retrofit): TmdbApiService =
+        retrofit.create(TmdbApiService::class.java)
 
     @Provides
-    fun provideMovieRepository(apiService: TmdbApiService) = MoviesRepository(tmdbApiService = apiService)
+    fun provideMovieRepository(apiService: TmdbApiService) =
+        MoviesRepository(tmdbApiService = apiService)
 
     @Provides
-    fun provideTvSeriesRepository(apiService: TmdbApiService) = TvSeriesRepository(tmdbApiService = apiService)
+    fun provideTvSeriesRepository(apiService: TmdbApiService) =
+        TvSeriesRepository(tmdbApiService = apiService)
 }
+
 
 

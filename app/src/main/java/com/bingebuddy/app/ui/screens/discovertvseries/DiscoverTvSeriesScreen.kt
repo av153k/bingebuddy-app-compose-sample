@@ -13,33 +13,36 @@ import com.bingebuddy.app.ui.screens.discovertvseries.populartvseries.PopularTvS
 import com.bingebuddy.app.ui.screens.discovertvseries.topratedtvseries.TopRatedTvSeriesSection
 
 @Composable
-fun DiscoverTvSeriesScreen(modifier: Modifier = Modifier) {
+fun DiscoverTvSeriesScreen(
+    onTvSeriesClicked: (tvSeriesId: String) -> Unit,
+
+    modifier: Modifier = Modifier
+) {
     LazyColumn(modifier = modifier.padding(10.dp)) {
         item {
-            AiringTodayTvSeriesSection()
+            AiringTodayTvSeriesSection(onTvSeriesClicked = onTvSeriesClicked)
         }
         item {
             Spacer(Modifier.height(10.dp))
         }
         item {
-            PopularTvSeriesSection()
+            PopularTvSeriesSection(onTvSeriesClicked = onTvSeriesClicked)
         }
         item {
             Spacer(Modifier.height(10.dp))
         }
         item {
-            TopRatedTvSeriesSection()
+            TopRatedTvSeriesSection(onTvSeriesClicked = onTvSeriesClicked)
         }
         item {
             Spacer(Modifier.height(10.dp))
         }
         item {
-            OnTheAirTvSeriesSection()
+            OnTheAirTvSeriesSection(onTvSeriesClicked = onTvSeriesClicked)
         }
         item {
             Spacer(Modifier.height(10.dp))
         }
-
 
 
     }

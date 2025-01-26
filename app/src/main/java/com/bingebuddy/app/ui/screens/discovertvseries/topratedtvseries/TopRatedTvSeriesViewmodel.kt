@@ -21,7 +21,7 @@ import javax.inject.Inject
 const val TAG = "TopRatedTvSeriesViewmodel"
 
 sealed interface TopRatedTvSeriesUiState {
-    data class Success(val tvSeries: List<DiscoverTvSeriesResultModel>) : TopRatedTvSeriesUiState
+    data class Success(val tvSeriesList: List<DiscoverTvSeriesResultModel>) : TopRatedTvSeriesUiState
     data object Error : TopRatedTvSeriesUiState
     data object Loading : TopRatedTvSeriesUiState
 }
@@ -45,7 +45,7 @@ class TopRatedTvSeriesViewmodel @Inject constructor(
             uiState = try {
                 val discoverResult = tvSeriesRepository.getTopRatedTvSeries()
                 TopRatedTvSeriesUiState.Success(
-                    tvSeries = discoverResult.results ?: listOf()
+                    tvSeriesList = discoverResult.results ?: listOf()
                 )
             } catch (e: IOException) {
                 Timber.tag(TAG).e(e)
