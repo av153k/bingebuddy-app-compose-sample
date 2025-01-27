@@ -5,16 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
 import coil3.network.HttpException
-import com.bingebuddy.app.data.repository.MoviesRepository
+import com.bingebuddy.app.data.repository.MovieDetailsRepository
 import com.bingebuddy.app.model.MovieDetailsModel
 import com.bingebuddy.app.ui.screens.discovertvseries.airingtodaytvseries.TAG
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -31,7 +26,7 @@ sealed interface MovieDetailUiState {
 
 @HiltViewModel
 class MovieDetailsViewmodel @Inject constructor(
-    private val repository: MoviesRepository,
+    private val repository: MovieDetailsRepository,
     savedStateHandle: SavedStateHandle,
 
 ): ViewModel() {

@@ -8,16 +8,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import coil3.compose.SubcomposeAsyncImageContent
 
 @Composable
-fun ImageWithShimmer(imageUrl: String) {
+fun ImageWithShimmer(
+    imageUrl: String,
+    modifier: Modifier = Modifier.clip(RoundedCornerShape(8.dp)),
+    contentScale: ContentScale = ContentScale.Fit,
+) {
     SubcomposeAsyncImage(
         model = imageUrl,
         contentDescription = "Image with shimmer",
-        modifier = Modifier.clip(RoundedCornerShape(8.dp)),
+        modifier = modifier,
         loading = {
             Box(
                 modifier = Modifier
@@ -25,6 +30,7 @@ fun ImageWithShimmer(imageUrl: String) {
                     .shimmerLoading()
             )
         },
+        contentScale = contentScale,
         error = {
             Box(modifier = Modifier.fillMaxSize()) {
                 Text(

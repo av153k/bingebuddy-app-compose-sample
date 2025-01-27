@@ -1,5 +1,6 @@
 package com.bingebuddy.app.di
 
+import com.bingebuddy.app.data.repository.MovieDetailsRepository
 import com.bingebuddy.app.data.repository.MoviesRepository
 import com.bingebuddy.app.data.repository.TvSeriesRepository
 import com.bingebuddy.app.network.ApiKeyInterceptor
@@ -49,6 +50,10 @@ object AppModule {
     @Provides
     fun provideTvSeriesRepository(apiService: TmdbApiService) =
         TvSeriesRepository(tmdbApiService = apiService)
+
+    @Provides
+    fun provideMovieDetailsRepository(apiService: TmdbApiService) =
+        MovieDetailsRepository(tmdbApiService = apiService)
 }
 
 

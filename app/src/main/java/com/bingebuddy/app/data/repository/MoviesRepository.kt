@@ -21,6 +21,4 @@ class MoviesRepository @Inject constructor(
 
     suspend fun getUpcomingMovies(): DiscoverResponseModel<DiscoverMovieResultModel> = tmdbApiService.getUpcomingMovies()
 
-    suspend fun getMovieDetails(movieId: String): MovieDetailsModel = tmdbApiService.getMovieDetails(movieId)
-
 }

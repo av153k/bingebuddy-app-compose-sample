@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.bingebuddy.app.constants.StringConstants
 import com.bingebuddy.app.model.DiscoverMovieResultModel
 
 
@@ -39,7 +40,7 @@ fun DiscoverMovieListCard(movie: DiscoverMovieResultModel, modifier: Modifier = 
             verticalArrangement = Arrangement.Center,
         ) {
             ImageWithShimmer(
-                imageUrl = "https://image.tmdb.org/t/p/original/${movie.posterPath}",
+                imageUrl = "${StringConstants.IMAGE_BASE_URL}${movie.posterPath}",
                 )
             Spacer(modifier = Modifier.height(5.dp))
             Text(
