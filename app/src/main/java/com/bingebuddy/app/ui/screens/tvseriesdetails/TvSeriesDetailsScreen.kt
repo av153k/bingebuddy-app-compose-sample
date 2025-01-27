@@ -44,6 +44,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.constants.StringConstants
+import com.bingebuddy.app.model.CreatedBy
+import com.bingebuddy.app.model.Season
 import com.bingebuddy.app.model.TvSeriesDetailsModel
 import com.bingebuddy.app.ui.components.ImageWithShimmer
 
@@ -201,56 +203,9 @@ private fun TvSeriesDetailContentView(
                 Spacer(
                     modifier = Modifier.height(10.dp),
                 )
-                Text(
-                    text = "Created by",
-                    style = MaterialTheme.typography.labelLarge,
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(
-                    modifier = Modifier.height(10.dp),
-                )
-                FlowRow {
-                    repeat(tvSeriesDetail.createdBy?.size ?: 0) {
-                        Box(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                                .background(
-                                    color = MaterialTheme.colorScheme.onBackground.copy(
-                                        alpha = 0.3f
-                                    )
-                                )
 
-
-                        ) {
-                            Row(
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.padding(5.dp)
-
-                            ) {
-                                val creator = (tvSeriesDetail.createdBy ?: listOf())[it]
-                                ImageWithShimmer(
-                                    imageUrl = "${StringConstants.IMAGE_BASE_URL}${creator.profilePath}",
-                                    modifier = Modifier
-                                        .height(30.dp)
-                                        .width(30.dp)
-                                        .clip(RoundedCornerShape(4.dp)),
-                                    contentScale = ContentScale.Crop,
-                                )
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Text(
-                                    "${creator.name}",
-                                    style = MaterialTheme.typography.labelMedium
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Spacer(
-                    modifier = Modifier.height(10.dp),
-                )
+                if ((tvSeriesDetail.createdBy ?: listOf()).isNotEmpty())
+                    CreatorsSection(creators = tvSeriesDetail.createdBy ?: listOf())
 
                 // Tv Series seasons and episodes
                 Text(
@@ -334,62 +289,8 @@ private fun TvSeriesDetailContentView(
                 )
 
                 //Tv Series Seasons
-                Text(text = "Seasons", style = MaterialTheme.typography.labelLarge)
-                Spacer(
-                    modifier = Modifier.height(5.dp),
-                )
-                LazyRow {
-                    items(tvSeriesDetail.seasons ?: listOf()) { season ->
-                        Box(
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                                .background(
-                                    color = MaterialTheme.colorScheme.onBackground.copy(
-                                        alpha = 0.2f
-                                    )
-                                )
-                        )
-                        {
-                            Row(modifier = Modifier.padding(5.dp)) {
-                                ImageWithShimmer(
-                                    imageUrl = "${StringConstants.IMAGE_BASE_URL}${season.posterPath}",
-                                    modifier = Modifier
-                                        .width(75.dp)
-                                        .clip(RoundedCornerShape(4.dp))
-                                )
-                                Spacer(
-                                    modifier = Modifier.width(8.dp),
-                                )
-                                Column(
-                                    horizontalAlignment = Alignment.Start,
-                                ) {
-
-                                    Text(
-                                        "Season ${season.seasonNumber}",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                    )
-                                    Text(
-                                        "${season.episodeCount} episodes",
-                                        style = MaterialTheme.typography.bodySmall,
-                                    )
-                                    Text(
-                                        "Aired on ${season.airDate}",
-                                        style = MaterialTheme.typography.bodySmall,
-                                    )
-                                    Text(
-                                        "Rating - ${season.voteAverage}",
-                                        style = MaterialTheme.typography.bodySmall,
-                                    )
-                                }
-                            }
-
-                        }
-                    }
-                }
-                Spacer(
-                    modifier = Modifier.height(10.dp),
-                )
+                if ((tvSeriesDetail.seasons ?: listOf()).isNotEmpty())
+                    SeasonsSection(seasons = tvSeriesDetail.seasons ?: listOf())
 
 
                 // Tv series overview
@@ -408,6 +309,122 @@ private fun TvSeriesDetailContentView(
 
         }
     }
+}
+
+
+@Composable
+private fun CreatorsSection(creators: List<CreatedBy>) {
+    Text(
+        text = "Created by",
+        style = MaterialTheme.typography.labelLarge,
+        textAlign = TextAlign.Center,
+    )
+    Spacer(
+        modifier = Modifier.height(10.dp),
+    )
+    FlowRow {
+        repeat(creators.size) {
+            Box(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(
+                        color = MaterialTheme.colorScheme.onBackground.copy(
+                            alpha = 0.3f
+                        )
+                    )
+
+
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(5.dp)
+
+                ) {
+                    val creator = creators[it]
+                    ImageWithShimmer(
+                        imageUrl = "${StringConstants.IMAGE_BASE_URL}${creator.profilePath}",
+                        modifier = Modifier
+                            .height(30.dp)
+                            .width(30.dp)
+                            .clip(RoundedCornerShape(4.dp)),
+                        contentScale = ContentScale.Crop,
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        "${creator.name}",
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                }
+            }
+        }
+    }
+
+    Spacer(
+        modifier = Modifier.height(10.dp),
+    )
+}
+
+
+@Composable
+private fun SeasonsSection(seasons: List<Season>) {
+    Text(text = "Seasons", style = MaterialTheme.typography.labelLarge)
+    Spacer(
+        modifier = Modifier.height(5.dp),
+    )
+    LazyRow {
+        items(seasons) { season ->
+            Box(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(
+                        color = MaterialTheme.colorScheme.onBackground.copy(
+                            alpha = 0.2f
+                        )
+                    )
+            )
+            {
+                Row(modifier = Modifier.padding(5.dp)) {
+                    ImageWithShimmer(
+                        imageUrl = "${StringConstants.IMAGE_BASE_URL}${season.posterPath}",
+                        modifier = Modifier
+                            .width(75.dp)
+                            .clip(RoundedCornerShape(4.dp))
+                    )
+                    Spacer(
+                        modifier = Modifier.width(8.dp),
+                    )
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+
+                        Text(
+                            "Season ${season.seasonNumber}",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                        Text(
+                            "${season.episodeCount} episodes",
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                        Text(
+                            "Aired on ${season.airDate}",
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                        Text(
+                            "Rating - ${season.voteAverage}",
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
+                }
+
+            }
+        }
+    }
+    Spacer(
+        modifier = Modifier.height(10.dp),
+    )
 }
 
 

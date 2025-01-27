@@ -2,6 +2,7 @@ package com.bingebuddy.app.navigation
 
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -14,8 +15,10 @@ import androidx.navigation.compose.rememberNavController
 import com.bingebuddy.app.ui.screens.home.BingeBuddyDrawer
 import com.bingebuddy.app.ui.screens.home.HomeScreen
 import com.bingebuddy.app.ui.screens.moviedetails.MovieDetailScreen
+import com.bingebuddy.app.ui.screens.search.SearchScreen
 import com.bingebuddy.app.ui.screens.tvseriesdetails.TvSeriesDetailScreen
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Composable
@@ -25,9 +28,7 @@ fun BingeBuddyNavGraph(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     drawerState: DrawerState = rememberDrawerState(DrawerValue.Closed),
     startDestination: String = BingeBuddyScreens.Home.route,
-    navActions: BingeBuddyNavigationActions = remember(navHostController) {
-        BingeBuddyNavigationActions(navHostController)
-    }
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState()}
 ) {
     NavHost(
         navController = navHostController,
@@ -38,11 +39,23 @@ fun BingeBuddyNavGraph(
             BingeBuddyRoutes.HOME_ROUTE
         ) { entry ->
             BingeBuddyDrawer(
-                drawerState = drawerState
+                drawerState = drawerState,
+                navigateTo = {
+                    coroutineScope.launch {
+                        drawerState.close()
+                    }
+                    navHostController.navigate(it)
+                },
+                snackbarHostState = snackbarHostState,
             ) {
                 HomeScreen(
                     navigateTo = {
                         navHostController.navigate(it)
+                    },
+                    openDrawer = {
+                        coroutineScope.launch {
+                            drawerState.open()
+                        }
                     }
                 )
             }
@@ -63,6 +76,13 @@ fun BingeBuddyNavGraph(
                 Timber.d(it)
             },
                 navigateUp = { navHostController.navigateUp() })
+        }
+
+        composable(BingeBuddyRoutes.SEARCH_ROUTE) { entry ->
+            SearchScreen(
+                navigateUp = { navHostController.navigateUp() },
+                navigateTo = { it -> Timber.d(it) },
+            )
         }
     }
 

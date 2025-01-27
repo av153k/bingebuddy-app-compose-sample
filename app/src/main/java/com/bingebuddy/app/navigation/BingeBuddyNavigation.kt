@@ -7,6 +7,7 @@ object BingeBuddyRoutes {
     const val HOME_ROUTE = "home"
     const val MOVIE_DETAILS_ROUTE = "movie/{movieId}"
     const val TV_SERIES_DETAIL_ROUTE = "tv/{tvSeriesId}"
+    const val SEARCH_ROUTE = "search"
 }
 
 sealed class BingeBuddyScreens(val route: String) {
@@ -16,6 +17,8 @@ sealed class BingeBuddyScreens(val route: String) {
 
     data class TvSeriesDetails(val id: String) :
         BingeBuddyScreens(route = "tv/$id")
+
+    data object Search: BingeBuddyScreens("search")
 }
 
 

@@ -4,9 +4,15 @@ package com.bingebuddy.app.ui.screens.home
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.sharp.Menu
+import androidx.compose.material.icons.sharp.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -33,6 +39,7 @@ object HomeRoutes {
 @Composable
 fun HomeScreen(
     navigateTo: (route: String) -> Unit,
+    openDrawer: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val homeNavController = rememberNavController()
@@ -47,6 +54,17 @@ fun HomeScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text("Bingebuddy", style = MaterialTheme.typography.displaySmall)
+                },
+                navigationIcon =
+                {
+                    IconButton(onClick = openDrawer) {
+                        Icon(Icons.Sharp.Menu, contentDescription = "open-drawer")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { navigateTo(BingeBuddyScreens.Search.route) }) {
+                        Icon(Icons.Sharp.Search, contentDescription = "search")
+                    }
                 }
             )
         }
@@ -68,9 +86,9 @@ fun HomeScreenContent(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "movies"
+        startDestination = HomeRoutes.MOVIES
     ) {
-        composable("movies") {
+        composable(HomeRoutes.MOVIES) {
             DiscoverMoviesScreen(
                 modifier = modifier,
                 onMovieClicked = {
@@ -79,7 +97,7 @@ fun HomeScreenContent(
                 }
             )
         }
-        composable("tv-series") {
+        composable(HomeRoutes.TV_SERIES) {
             DiscoverTvSeriesScreen(
                 onTvSeriesClicked = onTvSeriesClicked, modifier = modifier
             )
