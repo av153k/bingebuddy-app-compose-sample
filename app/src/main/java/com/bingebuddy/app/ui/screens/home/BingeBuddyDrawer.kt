@@ -3,6 +3,7 @@ package com.bingebuddy.app.ui.screens.home
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -62,7 +63,9 @@ fun BingeBuddyDrawer(
                 ) { innerPadding ->
                     Column(modifier = modifier
                         .fillMaxSize()
-                        .padding(innerPadding)) {
+                        .padding(innerPadding),
+
+                        ) {
                         Box(
                             modifier = Modifier
                                 .height(200.dp)
@@ -109,14 +112,17 @@ private fun DrawerTile(icon: ImageVector, label: String, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(vertical = 8.dp, horizontal = 15.dp)
+            .fillMaxWidth()
             .clickable {
                 onClick()
             },
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             icon,
             contentDescription = label,
-            modifier = Modifier.size(30.dp)
+            modifier = Modifier.size(28.dp)
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(label, style = MaterialTheme.typography.headlineSmall)
