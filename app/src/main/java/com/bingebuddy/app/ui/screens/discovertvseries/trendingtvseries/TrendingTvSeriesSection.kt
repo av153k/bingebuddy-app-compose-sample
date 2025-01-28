@@ -1,10 +1,4 @@
-package com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies
-
-import android.os.Build
-import androidx.annotation.RequiresApi
-import com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies.NowPlayingMoviesUiState
-import com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies.NowPlayingMoviesViewmodel
-
+package com.bingebuddy.app.ui.screens.discovertvseries.trendingtvseries
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,55 +18,56 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.bingebuddy.app.model.DiscoverMovieResultModel
-import com.bingebuddy.app.ui.components.DiscoverMovieListCard
-import com.bingebuddy.app.ui.components.DiscoverMovieListShimmerCard
+import com.bingebuddy.app.model.DiscoverTvSeriesResultModel
+import com.bingebuddy.app.ui.components.DiscoverTvSeriesListCard
+import com.bingebuddy.app.ui.components.DiscoverTvSeriesListShimmerCard
+import com.bingebuddy.app.ui.screens.discovertvseries.topratedtvseries.TopRatedTvSeriesUiState
+import com.bingebuddy.app.ui.screens.discovertvseries.topratedtvseries.TopRatedTvSeriesViewmodel
 import com.bingebuddy.app.ui.theme.Dimension
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun UpcomingMoviesSection(
+fun TrendingTvSeriesSection(
+    onTvSeriesClicked: (tvSeriesId: String) -> Unit,
     modifier: Modifier = Modifier,
-    onMovieClick : (movieId: String) -> Unit,
-    viewmodel: UpcomingMoviesViewmodel = hiltViewModel(),
+    viewmodel: TrendingTvSeriesViewmodel = hiltViewModel(),
 ) {
     Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
-            is UpcomingMoviesUiState.Success -> ResultView(
-                movies = uiState.movies,
-                onMovieClick = onMovieClick
+            is TrendingTvSeriesUiState.Success -> ResultView(
+                tvSeriesList = uiState.tvSeriesList,
+                onTvSeriesClicked = onTvSeriesClicked,
             )
 
-            is UpcomingMoviesUiState.Error -> RetryView(
-                onRetry = viewmodel::getUpcomingMovies
+            is TrendingTvSeriesUiState.Error -> RetryView(
+                onRetry = viewmodel::getTrendingTvSeries
             )
-            is UpcomingMoviesUiState.Loading -> LoadingView()
+            is TrendingTvSeriesUiState.Loading -> LoadingView()
         }
     }
 
 }
 
 @Composable
-fun ResultView(movies: List<DiscoverMovieResultModel>, onMovieClick : (movieId: String) -> Unit, modifier: Modifier = Modifier) {
+private fun ResultView(tvSeriesList: List<DiscoverTvSeriesResultModel>,    onTvSeriesClicked: (tvSeriesId: String) -> Unit, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Text("Upcoming", style = MaterialTheme.typography.headlineSmall)
+        Text("Trending", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
         LazyHorizontalGrid(
             rows = GridCells.Fixed(1)
         ) {
-            items(movies) {
-                DiscoverMovieListCard(it, onClick = onMovieClick)
+            items(tvSeriesList) {
+                DiscoverTvSeriesListCard(it, onTvSeriesClicked)
             }
         }
     }
 }
 
 @Composable
-fun RetryView(
+private fun RetryView(
     onRetry: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Text("Upcoming", style = MaterialTheme.typography.headlineSmall)
+        Text("Trending", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(100.dp))
         Column (
             modifier = Modifier.fillMaxSize(),
@@ -91,15 +86,15 @@ fun RetryView(
 }
 
 @Composable
-fun LoadingView(modifier: Modifier = Modifier) {
+private fun LoadingView(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Text("Upcoming", style = MaterialTheme.typography.headlineSmall)
+        Text("Trending", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
         LazyHorizontalGrid(
             rows = GridCells.Fixed(1)
         ) {
             items(10) {
-                DiscoverMovieListShimmerCard()
+                DiscoverTvSeriesListShimmerCard()
             }
         }
     }

@@ -7,6 +7,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil3.network.HttpException
+import com.bingebuddy.app.AppStateManager
+import com.bingebuddy.app.AppViewmodel
 import com.bingebuddy.app.data.repository.MoviesRepository
 import com.bingebuddy.app.model.DiscoverMovieResultModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +28,8 @@ sealed interface PopularMoviesUiState {
 
 @HiltViewModel
 class PopularMoviesViewmodel @Inject constructor(
-    private val moviesRepository: MoviesRepository
+    private val moviesRepository: MoviesRepository,
+    private val appStateManager: AppStateManager
 ) : ViewModel() {
 
     var uiState: PopularMoviesUiState by mutableStateOf(PopularMoviesUiState.Loading)
@@ -38,9 +41,10 @@ class PopularMoviesViewmodel @Inject constructor(
 
     fun getPopularMovies() {
         viewModelScope.launch {
+            appStateManager.allowExplicitContents.collect {
             uiState = PopularMoviesUiState.Loading
             uiState = try {
-                val discoverResult = moviesRepository.getPopularMovies()
+                val discoverResult = moviesRepository.getPopularMovies(includeAdult = it)
                 PopularMoviesUiState.Success(
                     movies = discoverResult.results ?: listOf()
                 )
@@ -51,6 +55,7 @@ class PopularMoviesViewmodel @Inject constructor(
                 Timber.tag(TAG).e(e)
                 PopularMoviesUiState.Error
             }
+        }
         }
     }
 

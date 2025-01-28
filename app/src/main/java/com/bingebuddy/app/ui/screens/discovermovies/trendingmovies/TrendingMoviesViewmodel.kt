@@ -1,4 +1,5 @@
-package com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies
+package com.bingebuddy.app.ui.screens.discovermovies.trendingmovies
+
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -20,45 +21,45 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-const val TAG = "NowPlayingViewModel"
+const val TAG = "TrendingMoviesViewModel"
 
-sealed interface NowPlayingMoviesUiState {
-    data class Success(val movies: List<DiscoverMovieResultModel>) : NowPlayingMoviesUiState
-    data object Error : NowPlayingMoviesUiState
-    data object Loading : NowPlayingMoviesUiState
+sealed interface TrendingMoviesUiState {
+    data class Success(val movies: List<DiscoverMovieResultModel>) : TrendingMoviesUiState
+    data object Error : TrendingMoviesUiState
+    data object Loading : TrendingMoviesUiState
 }
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class NowPlayingMoviesViewmodel @Inject constructor(
+class TrendingMoviesViewmodel @Inject constructor(
     private val moviesRepository: MoviesRepository,
     private val appStateManager: AppStateManager
 ) : ViewModel() {
 
-    var uiState: NowPlayingMoviesUiState by mutableStateOf(NowPlayingMoviesUiState.Loading)
+    var uiState: TrendingMoviesUiState by mutableStateOf(TrendingMoviesUiState.Loading)
         private set
 
     init {
-        getNowPlayingMovies()
+        getTrendingMovies()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getNowPlayingMovies() {
+    fun getTrendingMovies() {
         viewModelScope.launch {
             appStateManager.allowExplicitContents.collect {
-                uiState = NowPlayingMoviesUiState.Loading
+                uiState = TrendingMoviesUiState.Loading
                 uiState = try {
-                    val discoverResult = moviesRepository.getNowPlayingMovies(includeAdult = it)
-                    NowPlayingMoviesUiState.Success(
+                    val discoverResult = moviesRepository.getTrendingMoviesWeek(includeAdult = it)
+                    TrendingMoviesUiState.Success(
                         movies = discoverResult.results ?: listOf()
                     )
                 } catch (e: IOException) {
                     Timber.tag(TAG).e(e)
-                    NowPlayingMoviesUiState.Error
+                    TrendingMoviesUiState.Error
                 } catch (e: HttpException) {
                     Timber.tag(TAG).e(e)
-                    NowPlayingMoviesUiState.Error
+                    TrendingMoviesUiState.Error
                 }
             }
         }

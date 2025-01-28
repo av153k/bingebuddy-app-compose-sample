@@ -1,5 +1,7 @@
 package com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +25,7 @@ import com.bingebuddy.app.ui.components.DiscoverMovieListCard
 import com.bingebuddy.app.ui.components.DiscoverMovieListShimmerCard
 import com.bingebuddy.app.ui.theme.Dimension
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NowPlayingMoviesSection(
     modifier: Modifier = Modifier,

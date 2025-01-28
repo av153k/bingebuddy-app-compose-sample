@@ -1,9 +1,12 @@
 package com.bingebuddy.app.model
 
 import kotlinx.serialization.*
+import kotlinx.serialization.json.JsonIgnoreUnknownKeys
 
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
+@JsonIgnoreUnknownKeys
 data class DiscoverMovieResultModel (
     val adult: Boolean? = null,
 

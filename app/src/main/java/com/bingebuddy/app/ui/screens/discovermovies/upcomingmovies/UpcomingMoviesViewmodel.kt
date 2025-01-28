@@ -1,12 +1,16 @@
 package com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies
 
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil3.network.HttpException
+import com.bingebuddy.app.AppStateManager
+import com.bingebuddy.app.AppViewmodel
 import com.bingebuddy.app.data.repository.MoviesRepository
 import com.bingebuddy.app.model.DiscoverMovieResultModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,9 +28,11 @@ sealed interface UpcomingMoviesUiState {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class UpcomingMoviesViewmodel @Inject constructor(
-    private val moviesRepository: MoviesRepository
+    private val moviesRepository: MoviesRepository,
+    private val appStateManager: AppStateManager
 ) : ViewModel() {
 
     var uiState: UpcomingMoviesUiState by mutableStateOf(UpcomingMoviesUiState.Loading)
@@ -36,20 +42,23 @@ class UpcomingMoviesViewmodel @Inject constructor(
         getUpcomingMovies()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getUpcomingMovies() {
         viewModelScope.launch {
-            uiState = UpcomingMoviesUiState.Loading
-            uiState = try {
-                val discoverResult = moviesRepository.getUpcomingMovies()
-                UpcomingMoviesUiState.Success(
-                    movies = discoverResult.results ?: listOf()
-                )
-            } catch (e: IOException) {
-                Timber.tag(TAG).e(e)
-                UpcomingMoviesUiState.Error
-            } catch (e: HttpException) {
-                Timber.tag(TAG).e(e)
-                UpcomingMoviesUiState.Error
+            appStateManager.allowExplicitContents.collect {
+                uiState = UpcomingMoviesUiState.Loading
+                uiState = try {
+                    val discoverResult = moviesRepository.getUpcomingMovies(includeAdult = it)
+                    UpcomingMoviesUiState.Success(
+                        movies = discoverResult.results ?: listOf()
+                    )
+                } catch (e: IOException) {
+                    Timber.tag(TAG).e(e)
+                    UpcomingMoviesUiState.Error
+                } catch (e: HttpException) {
+                    Timber.tag(TAG).e(e)
+                    UpcomingMoviesUiState.Error
+                }
             }
         }
     }

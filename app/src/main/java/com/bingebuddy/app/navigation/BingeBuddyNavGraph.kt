@@ -16,6 +16,7 @@ import com.bingebuddy.app.ui.screens.home.BingeBuddyDrawer
 import com.bingebuddy.app.ui.screens.home.HomeScreen
 import com.bingebuddy.app.ui.screens.moviedetails.MovieDetailScreen
 import com.bingebuddy.app.ui.screens.search.SearchScreen
+import com.bingebuddy.app.ui.screens.settings.SettingsScreen
 import com.bingebuddy.app.ui.screens.tvseriesdetails.TvSeriesDetailScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -82,6 +83,14 @@ fun BingeBuddyNavGraph(
             SearchScreen(
                 navigateUp = { navHostController.navigateUp() },
                 navigateTo = { it -> Timber.d(it) },
+            )
+        }
+
+        composable(BingeBuddyRoutes.SETTINGS_ROUTE) {
+            entry -> SettingsScreen(
+                navigateUp = {
+                    navHostController.navigateUp()
+                }
             )
         }
     }

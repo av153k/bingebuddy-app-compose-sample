@@ -11,6 +11,7 @@ import com.bingebuddy.app.ui.screens.discovertvseries.airingtodaytvseries.Airing
 import com.bingebuddy.app.ui.screens.discovertvseries.ontheairtvseries.OnTheAirTvSeriesSection
 import com.bingebuddy.app.ui.screens.discovertvseries.populartvseries.PopularTvSeriesSection
 import com.bingebuddy.app.ui.screens.discovertvseries.topratedtvseries.TopRatedTvSeriesSection
+import com.bingebuddy.app.ui.screens.discovertvseries.trendingtvseries.TrendingTvSeriesSection
 
 @Composable
 fun DiscoverTvSeriesScreen(
@@ -19,6 +20,12 @@ fun DiscoverTvSeriesScreen(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier.padding(10.dp)) {
+        item {
+            TrendingTvSeriesSection(onTvSeriesClicked = onTvSeriesClicked)
+        }
+        item {
+            Spacer(Modifier.height(10.dp))
+        }
         item {
             AiringTodayTvSeriesSection(onTvSeriesClicked = onTvSeriesClicked)
         }

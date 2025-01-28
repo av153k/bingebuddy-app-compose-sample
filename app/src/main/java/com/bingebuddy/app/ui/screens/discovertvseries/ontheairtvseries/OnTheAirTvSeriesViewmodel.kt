@@ -1,6 +1,8 @@
 package com.bingebuddy.app.ui.screens.discovertvseries.ontheairtvseries
 
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.bingebuddy.app.data.repository.TvSeriesRepository
 import com.bingebuddy.app.model.DiscoverTvSeriesResultModel
 
@@ -12,6 +14,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil3.network.HttpException
+import com.bingebuddy.app.AppStateManager
+import com.bingebuddy.app.AppViewmodel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -27,9 +31,11 @@ sealed interface OnTheAirTvSeriesUiState {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class OnTheAirTvSeriesViewmodel @Inject constructor(
-    private val tvSeriesRepository: TvSeriesRepository
+    private val tvSeriesRepository: TvSeriesRepository,
+    private val appStateManager: AppStateManager
 ) : ViewModel() {
 
     var uiState: OnTheAirTvSeriesUiState by mutableStateOf(OnTheAirTvSeriesUiState.Loading)
@@ -39,20 +45,23 @@ class OnTheAirTvSeriesViewmodel @Inject constructor(
         getOnTheAirTvSeries()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getOnTheAirTvSeries() {
         viewModelScope.launch {
-            uiState = OnTheAirTvSeriesUiState.Loading
-            uiState = try {
-                val discoverResult = tvSeriesRepository.getOnTheAirTvSeries()
-                OnTheAirTvSeriesUiState.Success(
-                    tvSeriesList = discoverResult.results ?: listOf()
-                )
-            } catch (e: IOException) {
-                Timber.tag(TAG).e(e)
-                OnTheAirTvSeriesUiState.Error
-            } catch (e: HttpException) {
-                Timber.tag(TAG).e(e)
-                OnTheAirTvSeriesUiState.Error
+            appStateManager.allowExplicitContents.collect {
+                uiState = OnTheAirTvSeriesUiState.Loading
+                uiState = try {
+                    val discoverResult = tvSeriesRepository.getOnTheAirTV(includeAdult = it)
+                    OnTheAirTvSeriesUiState.Success(
+                        tvSeriesList = discoverResult.results ?: listOf()
+                    )
+                } catch (e: IOException) {
+                    Timber.tag(TAG).e(e)
+                    OnTheAirTvSeriesUiState.Error
+                } catch (e: HttpException) {
+                    Timber.tag(TAG).e(e)
+                    OnTheAirTvSeriesUiState.Error
+                }
             }
         }
     }

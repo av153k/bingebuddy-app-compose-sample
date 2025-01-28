@@ -8,6 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil3.network.HttpException
+import com.bingebuddy.app.AppStateManager
+import com.bingebuddy.app.AppViewmodel
 import com.bingebuddy.app.data.repository.MoviesRepository
 import com.bingebuddy.app.model.DiscoverMovieResultModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +29,8 @@ sealed interface TopRatedMoviesUiState {
 
 @HiltViewModel
 class TopRatedMoviesViewmodel @Inject constructor(
-    private val moviesRepository: MoviesRepository
+    private val moviesRepository: MoviesRepository,
+    private val appStateManager: AppStateManager
 ) : ViewModel() {
 
     var uiState: TopRatedMoviesUiState by mutableStateOf(TopRatedMoviesUiState.Loading)
@@ -39,18 +42,20 @@ class TopRatedMoviesViewmodel @Inject constructor(
 
     fun getTopRatedMovies() {
         viewModelScope.launch {
-            uiState = TopRatedMoviesUiState.Loading
-            uiState = try {
-                val discoverResult = moviesRepository.getTopRatedMovies()
-                TopRatedMoviesUiState.Success(
-                    movies = discoverResult.results ?: listOf()
-                )
-            } catch (e: IOException) {
-                Timber.tag(TAG).e(e)
-                TopRatedMoviesUiState.Error
-            } catch (e: HttpException) {
-                Timber.tag(TAG).e(e)
-                TopRatedMoviesUiState.Error
+            appStateManager.allowExplicitContents.collect {
+                uiState = TopRatedMoviesUiState.Loading
+                uiState = try {
+                    val discoverResult = moviesRepository.getTopRatedMovies(includeAdult = it)
+                    TopRatedMoviesUiState.Success(
+                        movies = discoverResult.results ?: listOf()
+                    )
+                } catch (e: IOException) {
+                    Timber.tag(TAG).e(e)
+                    TopRatedMoviesUiState.Error
+                } catch (e: HttpException) {
+                    Timber.tag(TAG).e(e)
+                    TopRatedMoviesUiState.Error
+                }
             }
         }
     }

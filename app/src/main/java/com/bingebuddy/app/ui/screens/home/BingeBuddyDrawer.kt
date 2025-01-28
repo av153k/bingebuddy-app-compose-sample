@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.Person
 import androidx.compose.material.icons.sharp.Search
+import androidx.compose.material.icons.sharp.Settings
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -88,6 +89,10 @@ fun BingeBuddyDrawer(
                         Spacer(modifier = Modifier.height(5.dp))
                         DrawerTile(icon = Icons.Sharp.Search, label = "Search") {
                             navigateTo(BingeBuddyScreens.Search.route)
+                        }
+                        Spacer(modifier = Modifier.height(5.dp))
+                        DrawerTile(icon = Icons.Sharp.Settings, label = "Settings") {
+                            navigateTo(BingeBuddyScreens.Setting.route)
                         }
                         Spacer(modifier = Modifier.height(500.dp))
                         Box(

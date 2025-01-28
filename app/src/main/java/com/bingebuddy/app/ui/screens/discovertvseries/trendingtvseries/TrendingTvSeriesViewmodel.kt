@@ -1,4 +1,4 @@
-package com.bingebuddy.app.ui.screens.discovertvseries.topratedtvseries
+package com.bingebuddy.app.ui.screens.discovertvseries.trendingtvseries
 
 
 import com.bingebuddy.app.data.repository.TvSeriesRepository
@@ -13,50 +13,49 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil3.network.HttpException
 import com.bingebuddy.app.AppStateManager
-import com.bingebuddy.app.AppViewmodel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-const val TAG = "TopRatedTvSeriesViewmodel"
+const val TAG = "TrendingTvSeriesViewmodel"
 
-sealed interface TopRatedTvSeriesUiState {
-    data class Success(val tvSeriesList: List<DiscoverTvSeriesResultModel>) : TopRatedTvSeriesUiState
-    data object Error : TopRatedTvSeriesUiState
-    data object Loading : TopRatedTvSeriesUiState
+sealed interface TrendingTvSeriesUiState {
+    data class Success(val tvSeriesList: List<DiscoverTvSeriesResultModel>) : TrendingTvSeriesUiState
+    data object Error : TrendingTvSeriesUiState
+    data object Loading : TrendingTvSeriesUiState
 }
 
 
 @HiltViewModel
-class TopRatedTvSeriesViewmodel @Inject constructor(
+class TrendingTvSeriesViewmodel @Inject constructor(
     private val tvSeriesRepository: TvSeriesRepository,
     private val appStateManager: AppStateManager
 ) : ViewModel() {
 
-    var uiState: TopRatedTvSeriesUiState by mutableStateOf(TopRatedTvSeriesUiState.Loading)
+    var uiState: TrendingTvSeriesUiState by mutableStateOf(TrendingTvSeriesUiState.Loading)
         private set
 
     init {
-        getTopRatedTvSeries()
+        getTrendingTvSeries()
     }
 
-    fun getTopRatedTvSeries() {
+    fun getTrendingTvSeries() {
         viewModelScope.launch {
             appStateManager.allowExplicitContents.collect {
-                uiState = TopRatedTvSeriesUiState.Loading
+                uiState = TrendingTvSeriesUiState.Loading
                 uiState = try {
-                    val discoverResult = tvSeriesRepository.getTopRatedTV(includeAdult = it)
-                    TopRatedTvSeriesUiState.Success(
+                    val discoverResult = tvSeriesRepository.getTrendingTVWeek(includeAdult = it)
+                    TrendingTvSeriesUiState.Success(
                         tvSeriesList = discoverResult.results ?: listOf()
                     )
                 } catch (e: IOException) {
                     Timber.tag(TAG).e(e)
-                    TopRatedTvSeriesUiState.Error
+                    TrendingTvSeriesUiState.Error
                 } catch (e: HttpException) {
                     Timber.tag(TAG).e(e)
-                    TopRatedTvSeriesUiState.Error
+                    TrendingTvSeriesUiState.Error
                 }
             }
         }

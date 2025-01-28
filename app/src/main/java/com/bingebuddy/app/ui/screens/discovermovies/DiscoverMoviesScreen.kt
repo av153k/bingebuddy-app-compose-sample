@@ -1,5 +1,7 @@
 package com.bingebuddy.app.ui.screens.discovermovies
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -10,11 +12,19 @@ import androidx.compose.ui.unit.dp
 import com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies.NowPlayingMoviesSection
 import com.bingebuddy.app.ui.screens.discovermovies.popularmovies.PopularMoviesSection
 import com.bingebuddy.app.ui.screens.discovermovies.topratedmovies.TopRatedMoviesSection
+import com.bingebuddy.app.ui.screens.discovermovies.trendingmovies.TrendingMoviesSection
 import com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies.UpcomingMoviesSection
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DiscoverMoviesScreen(onMovieClicked: (movieId: String) -> Unit,  modifier: Modifier = Modifier,) {
     LazyColumn(modifier = modifier.padding(10.dp)) {
+        item {
+            TrendingMoviesSection(onMovieClick = onMovieClicked)
+        }
+        item {
+            Spacer(Modifier.height(10.dp))
+        }
         item {
             NowPlayingMoviesSection(onMovieClick = onMovieClicked)
         }

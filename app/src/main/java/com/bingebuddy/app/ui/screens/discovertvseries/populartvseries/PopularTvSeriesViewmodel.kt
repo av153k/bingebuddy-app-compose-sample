@@ -11,6 +11,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil3.network.HttpException
+import com.bingebuddy.app.AppStateManager
+import com.bingebuddy.app.AppViewmodel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -28,7 +30,8 @@ sealed interface PopularTvSeriesUiState {
 
 @HiltViewModel
 class PopularTvSeriesViewmodel @Inject constructor(
-    private val tvSeriesRepository: TvSeriesRepository
+    private val tvSeriesRepository: TvSeriesRepository,
+    private val appStateManager: AppStateManager
 ) : ViewModel() {
 
     var uiState: PopularTvSeriesUiState by mutableStateOf(PopularTvSeriesUiState.Loading)
@@ -40,18 +43,20 @@ class PopularTvSeriesViewmodel @Inject constructor(
 
     fun getPopularTvSeries() {
         viewModelScope.launch {
-            uiState = PopularTvSeriesUiState.Loading
-            uiState = try {
-                val discoverResult = tvSeriesRepository.getPopularTvSeries()
-                PopularTvSeriesUiState.Success(
-                    tvSeriesList = discoverResult.results ?: listOf()
-                )
-            } catch (e: IOException) {
-                Timber.tag(TAG).e(e)
-                PopularTvSeriesUiState.Error
-            } catch (e: HttpException) {
-                Timber.tag(TAG).e(e)
-                PopularTvSeriesUiState.Error
+            appStateManager.allowExplicitContents.collect {
+                uiState = PopularTvSeriesUiState.Loading
+                uiState = try {
+                    val discoverResult = tvSeriesRepository.getPopularTV(includeAdult = it)
+                    PopularTvSeriesUiState.Success(
+                        tvSeriesList = discoverResult.results ?: listOf()
+                    )
+                } catch (e: IOException) {
+                    Timber.tag(TAG).e(e)
+                    PopularTvSeriesUiState.Error
+                } catch (e: HttpException) {
+                    Timber.tag(TAG).e(e)
+                    PopularTvSeriesUiState.Error
+                }
             }
         }
     }
