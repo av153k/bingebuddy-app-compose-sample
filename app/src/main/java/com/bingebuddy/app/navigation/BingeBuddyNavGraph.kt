@@ -15,13 +15,16 @@ import androidx.navigation.compose.rememberNavController
 import com.bingebuddy.app.ui.screens.home.BingeBuddyDrawer
 import com.bingebuddy.app.ui.screens.home.HomeScreen
 import com.bingebuddy.app.ui.screens.moviedetails.MovieDetailScreen
+import com.bingebuddy.app.ui.screens.peopledetails.PeopleDetailsScreen
 import com.bingebuddy.app.ui.screens.search.SearchScreen
 import com.bingebuddy.app.ui.screens.settings.SettingsScreen
 import com.bingebuddy.app.ui.screens.tvseriesdetails.TvSeriesDetailScreen
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@OptIn(FlowPreview::class)
 @Composable
 fun BingeBuddyNavGraph(
     modifier: Modifier = Modifier,
@@ -81,6 +84,13 @@ fun BingeBuddyNavGraph(
 
         composable(BingeBuddyRoutes.SEARCH_ROUTE) { entry ->
             SearchScreen(
+                navigateUp = { navHostController.navigateUp() },
+                navigateTo = { navHostController.navigate(it) },
+            )
+        }
+
+        composable(BingeBuddyRoutes.PEOPLE_DETAILS) { entry ->
+            PeopleDetailsScreen(
                 navigateUp = { navHostController.navigateUp() },
                 navigateTo = { it -> Timber.d(it) },
             )
