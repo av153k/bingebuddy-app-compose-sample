@@ -2,6 +2,10 @@ package com.bingebuddy.app.di
 
 import android.content.Context
 import com.bingebuddy.app.AppStateManager
+import com.bingebuddy.app.data.local.AppDatabase
+import com.bingebuddy.app.data.local.model.WatchlistItem
+import com.bingebuddy.app.data.local.repository.WatchlistItemDao
+import com.bingebuddy.app.data.local.repository.WatchlistRepository
 import com.bingebuddy.app.data.repository.MovieDetailsRepository
 import com.bingebuddy.app.data.repository.MoviesRepository
 import com.bingebuddy.app.data.repository.TvSeriesRepository
@@ -69,6 +73,23 @@ object AppModule {
     @Singleton
     fun provideMovieDetailsRepository(apiService: TmdbApiService) =
         MovieDetailsRepository(tmdbApiService = apiService)
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(context: Context): AppDatabase {
+        return AppDatabase.getDatabase(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideYourDao(appDatabase: AppDatabase): WatchlistItemDao {
+        return appDatabase.watchlistItemDao()
+    }
+
+    @Provides
+    fun provideWatchlistRepository(watchlistItemDao: WatchlistItemDao): WatchlistRepository {
+        return WatchlistRepository(watchlistItemDao)
+    }
 }
 
 

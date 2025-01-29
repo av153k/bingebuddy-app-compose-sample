@@ -80,8 +80,6 @@ fun SearchScreen(
     val searchText by viewmodel.searchQuery.collectAsState()
 
 
-
-
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
