@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.sharp.ArrowRight
@@ -63,7 +64,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.constants.StringConstants
 import com.bingebuddy.app.data.network.model.MediaType
 import com.bingebuddy.app.data.network.model.SearchResultModel
+import com.bingebuddy.app.data.toWatchlistItem
 import com.bingebuddy.app.navigation.BingeBuddyScreens
+import com.bingebuddy.app.ui.components.AddToWatchlistButton
 import com.bingebuddy.app.ui.components.ImageWithShimmer
 import com.bingebuddy.app.ui.components.RatingChip
 import kotlinx.coroutines.FlowPreview
@@ -297,24 +300,43 @@ private fun SearchResultCard(
 
 
                 ) {
-                ImageWithShimmer(
-                    imageUrl = "${StringConstants.IMAGE_BASE_URL}${searchResult.posterPath}",
-                    contentScale = ContentScale.Crop,
-                    errorBuilder = {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center,
+                Box {
+                    ImageWithShimmer(
+                        imageUrl = "${StringConstants.IMAGE_BASE_URL}${searchResult.posterPath}",
+                        contentScale = ContentScale.Crop,
+                        errorBuilder = {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Icon(
+                                    Icons.Filled.BrokenImage,
+                                    contentDescription = null,
+                                    Modifier
+                                        .size(50.dp)
+                                )
+                            }
+                        }
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(6.dp),
+                        contentAlignment = Alignment.BottomEnd
+                    ) {
+                        Row(
+                            Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.Bottom,
                         ) {
-                            Icon(
-                                Icons.Filled.BrokenImage,
-                                contentDescription = null,
-                                Modifier
-                                    .size(50.dp)
-                            )
+                            MediaTypeChip(searchResult.mediaType ?: MediaType.Movie)
+                            AddToWatchlistButton(item = searchResult.toWatchlistItem())
                         }
                     }
-                )
+                }
             }
+
         }
     }
 }
@@ -359,11 +381,11 @@ private fun MediaTypeChip(mediaType: MediaType) {
 
     Text(
         "  ${mediaType.name}  ",
-        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onBackground),
+        style = MaterialTheme.typography.labelSmall.copy(color = Color.Black),
         modifier = Modifier
-
+            .shadow(elevation = 8.dp, shape = CircleShape)
             .clip(RoundedCornerShape(10.dp))
-            .background(color = if (mediaType == MediaType.Movie) Color.Yellow else if (mediaType == MediaType.Tv) Color.Cyan else Color.Green)
+            .background(color = Color.White)
     )
 
 }

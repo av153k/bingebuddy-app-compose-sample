@@ -142,11 +142,11 @@ private fun WatchlistItemsView(
                             typeBadge = {
                                 Text(
                                     "  TV  ",
-                                    style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.background),
+                                    style = MaterialTheme.typography.labelSmall.copy(color = Color.Black),
                                     modifier = Modifier
                                         .shadow(elevation = 8.dp, shape = CircleShape)
                                         .clip(RoundedCornerShape(10.dp))
-                                        .background(color = MaterialTheme.colorScheme.onBackground)
+                                        .background(color = Color.White)
                                 )
                             }
                         )
