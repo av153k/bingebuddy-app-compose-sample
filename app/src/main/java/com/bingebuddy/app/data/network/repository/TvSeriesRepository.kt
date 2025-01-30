@@ -1,10 +1,10 @@
-package com.bingebuddy.app.data.repository
+package com.bingebuddy.app.data.network.repository
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.bingebuddy.app.data.model.DiscoverResponseModel
-import com.bingebuddy.app.model.DiscoverTvSeriesResultModel
-import com.bingebuddy.app.model.TvSeriesDetailsModel
+import com.bingebuddy.app.data.network.model.DiscoverResponseModel
+import com.bingebuddy.app.data.network.model.DiscoverTvSeriesResultModel
+import com.bingebuddy.app.data.network.model.TvSeriesDetailsModel
 import com.bingebuddy.app.network.TmdbApiService
 import java.time.LocalDate
 import javax.inject.Inject

@@ -1,11 +1,10 @@
-package com.bingebuddy.app.data.repository
+package com.bingebuddy.app.data.network.repository
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.bingebuddy.app.data.model.DiscoverResponseModel
-import com.bingebuddy.app.model.DiscoverMovieResultModel
+import com.bingebuddy.app.data.network.model.DiscoverResponseModel
+import com.bingebuddy.app.data.network.model.DiscoverMovieResultModel
 import com.bingebuddy.app.network.TmdbApiService
-import retrofit2.http.Query
 import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton

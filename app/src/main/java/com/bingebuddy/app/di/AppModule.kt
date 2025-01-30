@@ -6,9 +6,9 @@ import com.bingebuddy.app.data.local.AppDatabase
 import com.bingebuddy.app.data.local.model.WatchlistItem
 import com.bingebuddy.app.data.local.repository.WatchlistItemDao
 import com.bingebuddy.app.data.local.repository.WatchlistRepository
-import com.bingebuddy.app.data.repository.MovieDetailsRepository
-import com.bingebuddy.app.data.repository.MoviesRepository
-import com.bingebuddy.app.data.repository.TvSeriesRepository
+import com.bingebuddy.app.data.network.repository.MovieDetailsRepository
+import com.bingebuddy.app.data.network.repository.MoviesRepository
+import com.bingebuddy.app.data.network.repository.TvSeriesRepository
 import com.bingebuddy.app.network.ApiKeyInterceptor
 import com.bingebuddy.app.network.TmdbApiService
 import com.bingebuddy.app.utils.PreferencesManager
@@ -38,7 +38,7 @@ object AppModule {
     fun provideAppStateManager(prefsManager: PreferencesManager) = AppStateManager(prefsManager)
 
     @Provides
-    fun provideBaseUrl(): String = "https://v0-new-project-xthtyqwzpe7-abhishek-anands-projects-b1f4032d.vercel.app/api/tmdb/"
+    fun provideBaseUrl(): String = "https://dmm7vyhwyql4uk62.vercel.app/api/tmdb/"
 
     @Provides
     fun provideRetrofit(baseUrl: String): Retrofit {
@@ -76,7 +76,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(context: Context): AppDatabase {
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
         return AppDatabase.getDatabase(context)
     }
 

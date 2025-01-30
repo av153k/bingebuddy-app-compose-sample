@@ -11,8 +11,8 @@ import androidx.lifecycle.viewModelScope
 import coil3.network.HttpException
 import com.bingebuddy.app.AppStateManager
 import com.bingebuddy.app.AppViewmodel
-import com.bingebuddy.app.data.repository.MoviesRepository
-import com.bingebuddy.app.model.DiscoverMovieResultModel
+import com.bingebuddy.app.data.network.repository.MoviesRepository
+import com.bingebuddy.app.data.network.model.DiscoverMovieResultModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

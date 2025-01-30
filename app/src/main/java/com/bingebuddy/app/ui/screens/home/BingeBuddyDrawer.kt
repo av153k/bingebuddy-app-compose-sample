@@ -2,6 +2,7 @@ package com.bingebuddy.app.ui.screens.home
 
 import android.content.Context
 import android.content.pm.PackageManager
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +15,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.sharp.Favorite
 import androidx.compose.material.icons.sharp.Person
 import androidx.compose.material.icons.sharp.Search
 import androidx.compose.material.icons.sharp.Settings
@@ -36,6 +45,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.bingebuddy.app.navigation.BingeBuddyScreens
+import com.bingebuddy.app.utils.snackbar.LocalSnackbarHostState
 import kotlinx.coroutines.launch
 
 @Composable
@@ -43,12 +53,12 @@ fun BingeBuddyDrawer(
     drawerState: DrawerState,
     modifier: Modifier = Modifier,
     navigateTo: (route: String) -> Unit,
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+
     content: @Composable () -> Unit,
 ) {
     val context = LocalContext.current
     val appVersion = remember { getAppVersion(context) }
-
+    val snackbarHostState = LocalSnackbarHostState.current
     val scope = rememberCoroutineScope()
 
 
@@ -62,9 +72,10 @@ fun BingeBuddyDrawer(
                 Scaffold(
 
                 ) { innerPadding ->
-                    Column(modifier = modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
+                    Column(
+                        modifier = modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
 
                         ) {
                         Box(
@@ -78,13 +89,10 @@ fun BingeBuddyDrawer(
                                 style = MaterialTheme.typography.displaySmall,
                             )
                         }
-                        DrawerTile(icon = Icons.Sharp.Person, label = "Profile") {
-                            scope.launch {
-                                snackbarHostState.showSnackbar(
-                                    message = "Feature in progress",
-                                    actionLabel = "Dismiss"
-                                )
-                            }
+
+                        Spacer(modifier = Modifier.height(5.dp))
+                        DrawerTile(icon = Icons.Sharp.Favorite, label = "Watchlist") {
+                            navigateTo(BingeBuddyScreens.Watchlist.route)
                         }
                         Spacer(modifier = Modifier.height(5.dp))
                         DrawerTile(icon = Icons.Sharp.Search, label = "Search") {
@@ -94,12 +102,45 @@ fun BingeBuddyDrawer(
                         DrawerTile(icon = Icons.Sharp.Settings, label = "Settings") {
                             navigateTo(BingeBuddyScreens.Setting.route)
                         }
-                        Spacer(modifier = Modifier.height(500.dp))
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("v${appVersion}", style = MaterialTheme.typography.bodyLarge)
+
+                        Spacer(modifier = Modifier.weight(1f))
+                        Box(Modifier.padding(end = 25.dp, bottom = 10.dp, start = 15.dp)) {
+                            Box(
+                                modifier = Modifier
+                                    .border(
+                                        width = 1.dp,
+                                        shape = RoundedCornerShape(8.dp),
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                    .fillMaxWidth()
+                                    .padding(10.dp)
+                                    .clickable {
+                                        scope.launch {
+                                            snackbarHostState.showSnackbar(message = "Feature still in development", actionLabel = "dismiss")
+                                        }
+                                    },
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Start
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .border(
+                                                width = 1.dp,
+                                                color = MaterialTheme.colorScheme.onBackground,
+                                                shape = CircleShape,
+                                            )
+                                            .padding(5.dp)
+                                    ) {
+                                        Icon(Icons.Filled.Person, contentDescription = "", Modifier.size(28.dp))
+                                    }
+                                    Spacer(Modifier.width(8.dp))
+                                    Text("Sign In to Sync")
+                                    Spacer(Modifier.weight(1f))
+                                    Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "")
+                                }
+                            }
                         }
 
 

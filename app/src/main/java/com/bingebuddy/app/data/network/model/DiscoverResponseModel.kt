@@ -1,7 +1,6 @@
-package com.bingebuddy.app.data.model
+package com.bingebuddy.app.data.network.model
 
 
-import com.bingebuddy.app.model.DiscoverMovieResultModel
 import kotlinx.serialization.*
 
 

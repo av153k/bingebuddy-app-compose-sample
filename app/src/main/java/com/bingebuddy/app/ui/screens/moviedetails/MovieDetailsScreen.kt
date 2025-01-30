@@ -49,11 +49,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.constants.StringConstants
 import com.bingebuddy.app.data.PreviewData
-import com.bingebuddy.app.model.GenreModel
-import com.bingebuddy.app.model.MovieDetailsModel
-import com.bingebuddy.app.model.ProductionCompany
-import com.bingebuddy.app.model.ProductionCountry
-import com.bingebuddy.app.model.SpokenLanguage
+import com.bingebuddy.app.data.network.model.GenreModel
+import com.bingebuddy.app.data.network.model.MovieDetailsModel
+import com.bingebuddy.app.data.network.model.ProductionCompany
+import com.bingebuddy.app.data.network.model.ProductionCountry
+import com.bingebuddy.app.data.network.model.SpokenLanguage
 import com.bingebuddy.app.ui.components.ImageWithShimmer
 import com.bingebuddy.app.ui.theme.BingeBuddyTheme
 import kotlinx.coroutines.flow.Flow

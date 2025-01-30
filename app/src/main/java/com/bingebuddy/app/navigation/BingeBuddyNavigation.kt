@@ -10,6 +10,8 @@ object BingeBuddyRoutes {
     const val SEARCH_ROUTE = "search"
     const val SETTINGS_ROUTE = "settings"
     const val PEOPLE_DETAILS = "people/{peopleId}"
+    const val WATCHLIST = "watchlist"
+
 }
 
 sealed class BingeBuddyScreens(val route: String) {
@@ -26,6 +28,8 @@ sealed class BingeBuddyScreens(val route: String) {
     data object Search: BingeBuddyScreens(BingeBuddyRoutes.SEARCH_ROUTE)
 
     data object Setting: BingeBuddyScreens(BingeBuddyRoutes.SETTINGS_ROUTE)
+
+    data object Watchlist: BingeBuddyScreens(BingeBuddyRoutes.WATCHLIST)
 }
 
 

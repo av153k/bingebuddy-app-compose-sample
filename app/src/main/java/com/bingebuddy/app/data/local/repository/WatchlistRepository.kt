@@ -16,7 +16,7 @@ class WatchlistRepository @Inject constructor(
         watchlistItemDao.delete(item)
     }
 
-    fun getAllWatchlistItems(): Flow<List<WatchlistItem>> {
-        return watchlistItemDao.getAll()
+    fun observeWatchlist(): Flow<List<WatchlistItem>> {
+        return watchlistItemDao.observeAll()
     }
 }

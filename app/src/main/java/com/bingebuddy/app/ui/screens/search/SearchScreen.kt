@@ -61,8 +61,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.constants.StringConstants
-import com.bingebuddy.app.model.MediaType
-import com.bingebuddy.app.model.SearchResultModel
+import com.bingebuddy.app.data.network.model.MediaType
+import com.bingebuddy.app.data.network.model.SearchResultModel
 import com.bingebuddy.app.navigation.BingeBuddyScreens
 import com.bingebuddy.app.ui.components.ImageWithShimmer
 import com.bingebuddy.app.ui.components.RatingChip

@@ -1,4 +1,4 @@
-package com.bingebuddy.app.data.repository
+package com.bingebuddy.app.data.network.repository
 
 import com.bingebuddy.app.network.TmdbApiService
 import javax.inject.Inject

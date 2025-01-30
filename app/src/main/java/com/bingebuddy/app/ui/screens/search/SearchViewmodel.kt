@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil3.network.HttpException
 import com.bingebuddy.app.AppStateManager
-import com.bingebuddy.app.data.repository.SearchRepository
-import com.bingebuddy.app.model.SearchResultModel
+import com.bingebuddy.app.data.network.repository.SearchRepository
+import com.bingebuddy.app.data.network.model.SearchResultModel
 import com.bingebuddy.app.ui.screens.discovertvseries.topratedtvseries.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview

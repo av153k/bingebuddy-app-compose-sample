@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.bingebuddy.app.model.DiscoverTvSeriesResultModel
+import com.bingebuddy.app.data.network.model.DiscoverTvSeriesResultModel
 import com.bingebuddy.app.ui.components.DiscoverTvSeriesListCard
 import com.bingebuddy.app.ui.components.DiscoverTvSeriesListShimmerCard
 import com.bingebuddy.app.ui.screens.discovertvseries.topratedtvseries.TopRatedTvSeriesUiState
@@ -48,7 +48,7 @@ fun TrendingTvSeriesSection(
 }
 
 @Composable
-private fun ResultView(tvSeriesList: List<DiscoverTvSeriesResultModel>,    onTvSeriesClicked: (tvSeriesId: String) -> Unit, modifier: Modifier = Modifier) {
+private fun ResultView(tvSeriesList: List<DiscoverTvSeriesResultModel>, onTvSeriesClicked: (tvSeriesId: String) -> Unit, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text("Trending", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))

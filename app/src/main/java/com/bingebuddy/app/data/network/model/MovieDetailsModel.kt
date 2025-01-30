@@ -1,4 +1,4 @@
-package com.bingebuddy.app.model
+package com.bingebuddy.app.data.network.model
 
 
 import kotlinx.serialization.*

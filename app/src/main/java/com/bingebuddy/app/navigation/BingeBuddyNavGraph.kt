@@ -19,6 +19,7 @@ import com.bingebuddy.app.ui.screens.peopledetails.PeopleDetailsScreen
 import com.bingebuddy.app.ui.screens.search.SearchScreen
 import com.bingebuddy.app.ui.screens.settings.SettingsScreen
 import com.bingebuddy.app.ui.screens.tvseriesdetails.TvSeriesDetailScreen
+import com.bingebuddy.app.ui.screens.watchlist.WatchlistScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
@@ -32,7 +33,6 @@ fun BingeBuddyNavGraph(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     drawerState: DrawerState = rememberDrawerState(DrawerValue.Closed),
     startDestination: String = BingeBuddyScreens.Home.route,
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState()}
 ) {
     NavHost(
         navController = navHostController,
@@ -50,7 +50,6 @@ fun BingeBuddyNavGraph(
                     }
                     navHostController.navigate(it)
                 },
-                snackbarHostState = snackbarHostState,
             ) {
                 HomeScreen(
                     navigateTo = {
@@ -102,6 +101,16 @@ fun BingeBuddyNavGraph(
                     navHostController.navigateUp()
                 }
             )
+        }
+
+        composable(BingeBuddyRoutes.WATCHLIST) {
+                entry -> WatchlistScreen(
+            navigateUp = {
+                navHostController.navigateUp()
+            }, navigateTo = {
+                navHostController.navigate(it)
+            }
+        )
         }
     }
 

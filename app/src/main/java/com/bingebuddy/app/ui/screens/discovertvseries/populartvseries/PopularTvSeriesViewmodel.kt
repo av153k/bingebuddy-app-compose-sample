@@ -1,7 +1,7 @@
 package com.bingebuddy.app.ui.screens.discovertvseries.populartvseries
 
-import com.bingebuddy.app.data.repository.TvSeriesRepository
-import com.bingebuddy.app.model.DiscoverTvSeriesResultModel
+import com.bingebuddy.app.data.network.repository.TvSeriesRepository
+import com.bingebuddy.app.data.network.model.DiscoverTvSeriesResultModel
 
 
 

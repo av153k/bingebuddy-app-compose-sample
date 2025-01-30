@@ -1,11 +1,11 @@
 package com.bingebuddy.app.network
 
-import com.bingebuddy.app.data.model.DiscoverResponseModel
-import com.bingebuddy.app.model.DiscoverMovieResultModel
-import com.bingebuddy.app.model.DiscoverTvSeriesResultModel
-import com.bingebuddy.app.model.MovieDetailsModel
-import com.bingebuddy.app.model.SearchResultModel
-import com.bingebuddy.app.model.TvSeriesDetailsModel
+import com.bingebuddy.app.data.network.model.DiscoverResponseModel
+import com.bingebuddy.app.data.network.model.DiscoverMovieResultModel
+import com.bingebuddy.app.data.network.model.DiscoverTvSeriesResultModel
+import com.bingebuddy.app.data.network.model.MovieDetailsModel
+import com.bingebuddy.app.data.network.model.SearchResultModel
+import com.bingebuddy.app.data.network.model.TvSeriesDetailsModel
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

@@ -44,9 +44,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.constants.StringConstants
-import com.bingebuddy.app.model.CreatedBy
-import com.bingebuddy.app.model.Season
-import com.bingebuddy.app.model.TvSeriesDetailsModel
+import com.bingebuddy.app.data.network.model.CreatedBy
+import com.bingebuddy.app.data.network.model.Season
+import com.bingebuddy.app.data.network.model.TvSeriesDetailsModel
 import com.bingebuddy.app.ui.components.ImageWithShimmer
 
 @OptIn(ExperimentalMaterial3Api::class)

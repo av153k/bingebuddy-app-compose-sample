@@ -19,6 +19,6 @@ interface WatchlistItemDao {
     suspend fun delete(item: WatchlistItem)
 
     @Query("SELECT * FROM watchlist_items ORDER BY created_at DESC")
-    fun getAll(): Flow<List<WatchlistItem>>
+    fun observeAll(): Flow<List<WatchlistItem>>
 
 }

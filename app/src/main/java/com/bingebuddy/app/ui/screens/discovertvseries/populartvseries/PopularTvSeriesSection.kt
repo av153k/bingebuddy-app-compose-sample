@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.bingebuddy.app.model.DiscoverTvSeriesResultModel
+import com.bingebuddy.app.data.network.model.DiscoverTvSeriesResultModel
 import com.bingebuddy.app.ui.components.DiscoverTvSeriesListCard
 import com.bingebuddy.app.ui.components.DiscoverTvSeriesListShimmerCard
 import com.bingebuddy.app.ui.theme.Dimension

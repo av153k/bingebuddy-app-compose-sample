@@ -1,10 +1,10 @@
 package com.bingebuddy.app.data
 
-import com.bingebuddy.app.model.GenreModel
-import com.bingebuddy.app.model.MovieDetailsModel
-import com.bingebuddy.app.model.ProductionCompany
-import com.bingebuddy.app.model.ProductionCountry
-import com.bingebuddy.app.model.SpokenLanguage
+import com.bingebuddy.app.data.network.model.GenreModel
+import com.bingebuddy.app.data.network.model.MovieDetailsModel
+import com.bingebuddy.app.data.network.model.ProductionCompany
+import com.bingebuddy.app.data.network.model.ProductionCountry
+import com.bingebuddy.app.data.network.model.SpokenLanguage
 
 object PreviewData {
     val MOVIE_DETAIL = MovieDetailsModel(
