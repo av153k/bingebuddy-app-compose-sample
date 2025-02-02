@@ -136,7 +136,7 @@ fun BingeBuddyDrawer(
                                         Icon(Icons.Filled.Person, contentDescription = "", Modifier.size(28.dp))
                                     }
                                     Spacer(Modifier.width(8.dp))
-                                    Text("Sign In to Sync")
+                                    Text("Sign In to Sync", style = MaterialTheme.typography.bodyLarge)
                                     Spacer(Modifier.weight(1f))
                                     Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "")
                                 }

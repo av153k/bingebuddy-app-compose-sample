@@ -216,13 +216,13 @@ private fun MovieDetailContentView(movieDetail: MovieDetailsModel, modifier: Mod
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Release date", style = MaterialTheme.typography.labelLarge)
+                        Text(text = "Release date", style = MaterialTheme.typography.titleLarge)
                         Spacer(
                             modifier = Modifier.height(5.dp),
                         )
                         Text(
                             text = "${movieDetail.releaseDate}",
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.bodyLarge,
                             textAlign = TextAlign.Center,
                         )
                     }
@@ -231,7 +231,7 @@ private fun MovieDetailContentView(movieDetail: MovieDetailsModel, modifier: Mod
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Rating", style = MaterialTheme.typography.labelLarge)
+                        Text(text = "Rating", style = MaterialTheme.typography.titleLarge)
                         Spacer(
                             modifier = Modifier.height(5.dp),
                         )
@@ -247,7 +247,7 @@ private fun MovieDetailContentView(movieDetail: MovieDetailsModel, modifier: Mod
                             Spacer(modifier = Modifier.width(5.dp))
                             Text(
                                 "${DecimalFormat("#.0").format(movieDetail.voteAverage)} (${movieDetail.voteCount})",
-                                style = MaterialTheme.typography.labelMedium
+                                style = MaterialTheme.typography.bodyLarge
                             )
                         }
                     }
@@ -258,7 +258,7 @@ private fun MovieDetailContentView(movieDetail: MovieDetailsModel, modifier: Mod
                 )
 
                 // Movie genre
-                Text(text = "Genre", style = MaterialTheme.typography.labelLarge)
+                Text(text = "Genre", style = MaterialTheme.typography.titleLarge)
                 Spacer(
                     modifier = Modifier.height(5.dp),
                 )
@@ -268,7 +268,7 @@ private fun MovieDetailContentView(movieDetail: MovieDetailsModel, modifier: Mod
                         Box {
                             Text(
                                 text = "${genre.name}${if (it == (movieDetail.genres?.size ?: 0) - 1) "" else ", "}",
-                                style = MaterialTheme.typography.labelMedium
+                                style = MaterialTheme.typography.bodyLarge
                             )
                         }
                     }
@@ -278,13 +278,13 @@ private fun MovieDetailContentView(movieDetail: MovieDetailsModel, modifier: Mod
                 )
 
                 // Movie overview
-                Text(text = "Overview", style = MaterialTheme.typography.labelLarge)
+                Text(text = "Overview", style = MaterialTheme.typography.titleLarge)
                 Spacer(
                     modifier = Modifier.height(5.dp),
                 )
                 Text(
                     text = "${movieDetail.overview}",
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                 )
 

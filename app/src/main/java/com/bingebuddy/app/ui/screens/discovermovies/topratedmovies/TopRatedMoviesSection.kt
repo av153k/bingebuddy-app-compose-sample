@@ -1,11 +1,5 @@
 package com.bingebuddy.app.ui.screens.discovermovies.topratedmovies
 
-import com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies.UpcomingMoviesUiState
-import com.bingebuddy.app.ui.screens.discovermovies.upcomingmovies.UpcomingMoviesViewmodel
-
-
-import com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies.NowPlayingMoviesUiState
-import com.bingebuddy.app.ui.screens.discovermovies.nowplayingmovies.NowPlayingMoviesViewmodel
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.data.network.model.DiscoverMovieResultModel
 import com.bingebuddy.app.ui.components.DiscoverMovieListCard
 import com.bingebuddy.app.ui.components.DiscoverMovieListShimmerCard
-import com.bingebuddy.app.ui.theme.Dimension
+import com.bingebuddy.app.ui.theme.Dimensions
 
 @Composable
 fun TopRatedMoviesSection(
@@ -37,7 +31,7 @@ fun TopRatedMoviesSection(
     onMovieClick : (movieId: String) -> Unit,
     viewmodel: TopRatedMoviesViewmodel = hiltViewModel(),
 ) {
-    Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
+    Box(modifier = modifier.height(Dimensions.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
             is TopRatedMoviesUiState.Success -> ResultView(
                 movies = uiState.movies,

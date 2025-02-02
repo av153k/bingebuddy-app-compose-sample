@@ -227,8 +227,8 @@ private fun SearchResultCard(
                 Column {
                     Text(
                         searchResult.title ?: searchResult.name ?: searchResult.originalName ?: "",
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.weight(1f, fill = false),
                         overflow = TextOverflow.Ellipsis,
                     )
                     Spacer(

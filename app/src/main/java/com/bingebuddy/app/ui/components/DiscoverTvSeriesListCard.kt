@@ -29,10 +29,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil3.size.Dimension
 import com.bingebuddy.app.constants.StringConstants
 import com.bingebuddy.app.data.network.model.DiscoverTvSeriesResultModel
 import com.bingebuddy.app.data.toWatchlistItem
+import com.bingebuddy.app.ui.theme.Dimensions
 
 
 @Composable
@@ -42,12 +45,13 @@ fun DiscoverTvSeriesListCard(
     typeBadge: @Composable () -> Unit = {
         Box {}
     },
+    width: Dp = Dimensions.contentCardWidth,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .width(170.dp)
+            .width(width)
             .clickable {
                 onTvSeriesClicked("${tvSeries.id}")
             }
@@ -101,15 +105,15 @@ fun DiscoverTvSeriesListCard(
             Spacer(modifier = Modifier.height(5.dp))
             Text(
                 "${tvSeries.name}",
-                style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.weight(1f, fill = false),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 2
             )
             Spacer(modifier = Modifier.height(5.dp))
             Text(
                 "First air - ${tvSeries.firstAirDate}",
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.bodyMedium,
             )
             Spacer(modifier = Modifier.height(5.dp))
             RatingChip(tvSeries.voteAverage, tvSeries.voteCount)

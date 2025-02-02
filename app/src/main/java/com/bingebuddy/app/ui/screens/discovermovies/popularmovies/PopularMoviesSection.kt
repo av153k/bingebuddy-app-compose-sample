@@ -22,7 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.data.network.model.DiscoverMovieResultModel
 import com.bingebuddy.app.ui.components.DiscoverMovieListCard
 import com.bingebuddy.app.ui.components.DiscoverMovieListShimmerCard
-import com.bingebuddy.app.ui.theme.Dimension
+import com.bingebuddy.app.ui.theme.Dimensions
 
 @Composable
 fun PopularMoviesSection(
@@ -30,7 +30,7 @@ fun PopularMoviesSection(
     onMovieClick : (movieId: String) -> Unit,
     viewmodel: PopularMoviesViewmodel = hiltViewModel(),
 ) {
-    Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
+    Box(modifier = modifier.height(Dimensions.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
             is PopularMoviesUiState.Success -> ResultView(
                 movies = uiState.movies,

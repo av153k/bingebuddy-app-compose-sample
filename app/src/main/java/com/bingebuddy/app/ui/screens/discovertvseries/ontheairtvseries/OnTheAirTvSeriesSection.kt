@@ -1,6 +1,8 @@
 package com.bingebuddy.app.ui.screens.discovertvseries.ontheairtvseries
 
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,15 +24,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.data.network.model.DiscoverTvSeriesResultModel
 import com.bingebuddy.app.ui.components.DiscoverTvSeriesListCard
 import com.bingebuddy.app.ui.components.DiscoverTvSeriesListShimmerCard
-import com.bingebuddy.app.ui.theme.Dimension
+import com.bingebuddy.app.ui.theme.Dimensions
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun OnTheAirTvSeriesSection(
     onTvSeriesClicked: (tvSeriesId: String) -> Unit,
     modifier: Modifier = Modifier,
     viewmodel: OnTheAirTvSeriesViewmodel = hiltViewModel(),
 ) {
-    Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
+    Box(modifier = modifier.height(Dimensions.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
             is OnTheAirTvSeriesUiState.Success -> ResultView(
                 tvSeriesList = uiState.tvSeriesList,

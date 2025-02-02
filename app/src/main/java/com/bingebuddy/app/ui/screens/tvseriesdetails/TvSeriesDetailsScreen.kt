@@ -210,7 +210,7 @@ private fun TvSeriesDetailContentView(
                 // Tv Series seasons and episodes
                 Text(
                     text = "${tvSeriesDetail.numberOfSeasons} Seasons, ${tvSeriesDetail.numberOfEpisodes} Episodes",
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(
@@ -226,13 +226,13 @@ private fun TvSeriesDetailContentView(
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Pilot air date", style = MaterialTheme.typography.labelLarge)
+                        Text(text = "Pilot air date", style = MaterialTheme.typography.titleLarge)
                         Spacer(
                             modifier = Modifier.height(5.dp),
                         )
                         Text(
                             text = "${tvSeriesDetail.firstAirDate}",
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.bodyLarge,
                             textAlign = TextAlign.Center,
                         )
                     }
@@ -241,7 +241,7 @@ private fun TvSeriesDetailContentView(
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Rating", style = MaterialTheme.typography.labelLarge)
+                        Text(text = "Rating", style = MaterialTheme.typography.titleLarge)
                         Spacer(
                             modifier = Modifier.height(5.dp),
                         )
@@ -257,7 +257,7 @@ private fun TvSeriesDetailContentView(
                             Spacer(modifier = Modifier.width(5.dp))
                             Text(
                                 "${DecimalFormat("#.0").format(tvSeriesDetail.voteAverage)} (${tvSeriesDetail.voteCount})",
-                                style = MaterialTheme.typography.labelMedium
+                                style = MaterialTheme.typography.bodyLarge
                             )
                         }
                     }
@@ -269,7 +269,7 @@ private fun TvSeriesDetailContentView(
 
 
                 // Tv Series genre
-                Text(text = "Genre", style = MaterialTheme.typography.labelLarge)
+                Text(text = "Genre", style = MaterialTheme.typography.titleLarge)
                 Spacer(
                     modifier = Modifier.height(5.dp),
                 )
@@ -279,7 +279,7 @@ private fun TvSeriesDetailContentView(
                         Box {
                             Text(
                                 text = "${genre.name}${if (it == (tvSeriesDetail.genres?.size ?: 0) - 1) "" else ", "}",
-                                style = MaterialTheme.typography.labelMedium
+                                style = MaterialTheme.typography.bodyLarge
                             )
                         }
                     }
@@ -294,13 +294,13 @@ private fun TvSeriesDetailContentView(
 
 
                 // Tv series overview
-                Text(text = "Overview", style = MaterialTheme.typography.labelLarge)
+                Text(text = "Overview", style = MaterialTheme.typography.titleLarge)
                 Spacer(
                     modifier = Modifier.height(5.dp),
                 )
                 Text(
                     text = "${tvSeriesDetail.overview}",
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                 )
 
@@ -316,7 +316,7 @@ private fun TvSeriesDetailContentView(
 private fun CreatorsSection(creators: List<CreatedBy>) {
     Text(
         text = "Created by",
-        style = MaterialTheme.typography.labelLarge,
+        style = MaterialTheme.typography.titleLarge,
         textAlign = TextAlign.Center,
     )
     Spacer(
@@ -354,7 +354,7 @@ private fun CreatorsSection(creators: List<CreatedBy>) {
                     Spacer(modifier = Modifier.width(5.dp))
                     Text(
                         "${creator.name}",
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.bodyLarge
                     )
                 }
             }
@@ -369,7 +369,7 @@ private fun CreatorsSection(creators: List<CreatedBy>) {
 
 @Composable
 private fun SeasonsSection(seasons: List<Season>) {
-    Text(text = "Seasons", style = MaterialTheme.typography.labelLarge)
+    Text(text = "Seasons", style = MaterialTheme.typography.titleLarge)
     Spacer(
         modifier = Modifier.height(5.dp),
     )
@@ -377,7 +377,7 @@ private fun SeasonsSection(seasons: List<Season>) {
         items(seasons) { season ->
             Box(
                 modifier = Modifier
-                    .padding(10.dp)
+                    .padding(10.dp).width(240.dp)
                     .clip(RoundedCornerShape(4.dp))
                     .background(
                         color = MaterialTheme.colorScheme.onBackground.copy(
@@ -390,7 +390,7 @@ private fun SeasonsSection(seasons: List<Season>) {
                     ImageWithShimmer(
                         imageUrl = "${StringConstants.IMAGE_BASE_URL}${season.posterPath}",
                         modifier = Modifier
-                            .width(75.dp)
+                            .width(85.dp)
                             .clip(RoundedCornerShape(4.dp))
                     )
                     Spacer(
@@ -398,23 +398,28 @@ private fun SeasonsSection(seasons: List<Season>) {
                     )
                     Column(
                         horizontalAlignment = Alignment.Start,
+                        modifier = Modifier.weight(1f)
                     ) {
 
                         Text(
                             "Season ${season.seasonNumber}",
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = MaterialTheme.typography.bodyLarge,
+                            maxLines = 3
                         )
                         Text(
                             "${season.episodeCount} episodes",
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
+                            maxLines = 3
                         )
                         Text(
                             "Aired on ${season.airDate}",
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
+                            maxLines = 3
                         )
                         Text(
                             "Rating - ${season.voteAverage}",
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.labelLarge,
+                            maxLines = 3
                         )
                     }
                 }

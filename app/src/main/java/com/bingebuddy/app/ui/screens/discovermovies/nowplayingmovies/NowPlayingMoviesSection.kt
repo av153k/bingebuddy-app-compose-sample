@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.data.network.model.DiscoverMovieResultModel
 import com.bingebuddy.app.ui.components.DiscoverMovieListCard
 import com.bingebuddy.app.ui.components.DiscoverMovieListShimmerCard
-import com.bingebuddy.app.ui.theme.Dimension
+import com.bingebuddy.app.ui.theme.Dimensions
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -32,7 +32,7 @@ fun NowPlayingMoviesSection(
     viewmodel: NowPlayingMoviesViewmodel = hiltViewModel(),
     onMovieClick : (movieId: String) -> Unit,
 ) {
-    Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
+    Box(modifier = modifier.height(Dimensions.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
             is NowPlayingMoviesUiState.Success -> ResultView(
                 movies = uiState.movies

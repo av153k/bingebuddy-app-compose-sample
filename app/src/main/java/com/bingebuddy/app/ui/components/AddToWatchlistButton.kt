@@ -41,48 +41,48 @@ fun AddToWatchlistButton(
     val snackbarHostState = LocalSnackbarHostState.current
     val scope = rememberCoroutineScope()
 
-        when (dbState) {
-            is WatchlistUiState.Error -> Box {}
-            WatchlistUiState.Loading -> Box {}
-            is WatchlistUiState.Success -> {
-                val dbItem =
-                    (dbState as WatchlistUiState.Success).watchlistItems.find { it.tmdbId == item.tmdbId }
-                Box(
-                    modifier = Modifier
-                        .shadow(elevation = 8.dp, shape = CircleShape)
-                        .clip(CircleShape)
-                        .background(Color.White)
-                        .padding(7.dp)
-                        .clickable {
-                            if (dbItem == null) {
-                                viewmodel.insertIntoWatchlist(item)
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(message = "Added to watchlist!!")
-                                }
-                            } else {
-                                viewmodel.deleteFromWatchlist(dbItem)
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(message = "Removed from watchlist!!")
-                                }
+    when (dbState) {
+        is WatchlistUiState.Error -> Box {}
+        WatchlistUiState.Loading -> Box {}
+        is WatchlistUiState.Success -> {
+            val dbItem =
+                (dbState as WatchlistUiState.Success).watchlistItems.find { it.tmdbId == item.tmdbId }
+            Box(
+                modifier = Modifier
+                    .shadow(elevation = 8.dp, shape = CircleShape)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .padding(7.dp)
+                    .clickable {
+                        if (dbItem == null) {
+                            viewmodel.insertIntoWatchlist(item)
+                            scope.launch {
+                                snackbarHostState.showSnackbar(message = "Added to watchlist!!")
                             }
+                        } else {
+                            viewmodel.deleteFromWatchlist(dbItem)
+                            scope.launch {
+                                snackbarHostState.showSnackbar(message = "Removed from watchlist!!")
+                            }
+                        }
 
-                        },
-                    contentAlignment = Alignment.Center,
-                ) {
-                    if (dbItem == null) {
-                        Icon(
-                            Icons.Outlined.Favorite,
-                            contentDescription = "un-favorite",
-                            tint = Color.Black
-                        )
-                    } else {
-                        Icon(
-                            Icons.Filled.Favorite,
-                            contentDescription = "favorite",
-                            tint = Color.Red
-                        )
-                    }
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                if (dbItem == null) {
+                    Icon(
+                        Icons.Outlined.Favorite,
+                        contentDescription = "un-favorite",
+                        tint = Color.Black
+                    )
+                } else {
+                    Icon(
+                        Icons.Filled.Favorite,
+                        contentDescription = "favorite",
+                        tint = Color.Red
+                    )
                 }
             }
         }
+    }
 }

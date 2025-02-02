@@ -39,6 +39,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -47,6 +48,7 @@ import com.bingebuddy.app.data.network.model.DiscoverMovieResultModel
 import com.bingebuddy.app.data.toWatchlistItem
 import com.bingebuddy.app.ui.screens.watchlist.WatchlistUiState
 import com.bingebuddy.app.ui.screens.watchlist.WatchlistViewmodel
+import com.bingebuddy.app.ui.theme.Dimensions
 
 
 @Composable
@@ -55,6 +57,7 @@ fun DiscoverMovieListCard(
     typeBadge: @Composable () -> Unit = {
         Box {}
     },
+    width: Dp = Dimensions.contentCardWidth,
     modifier: Modifier = Modifier,
     onClick: (movieId: String) -> Unit,
 ) {
@@ -62,7 +65,7 @@ fun DiscoverMovieListCard(
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .width(170.dp)
+            .width(width)
             .clickable {
                 onClick("${movie.id}")
             }
@@ -116,15 +119,15 @@ fun DiscoverMovieListCard(
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     "${movie.title}",
-                    style = MaterialTheme.typography.labelLarge,
-                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.weight(1f, fill = false),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     "Release - ${movie.releaseDate}",
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.bodyMedium,
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 RatingChip(movie.voteAverage, movie.voteCount)

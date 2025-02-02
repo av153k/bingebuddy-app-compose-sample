@@ -22,7 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bingebuddy.app.data.network.model.DiscoverTvSeriesResultModel
 import com.bingebuddy.app.ui.components.DiscoverTvSeriesListCard
 import com.bingebuddy.app.ui.components.DiscoverTvSeriesListShimmerCard
-import com.bingebuddy.app.ui.theme.Dimension
+import com.bingebuddy.app.ui.theme.Dimensions
 
 @Composable
 fun TopRatedTvSeriesSection(
@@ -30,7 +30,7 @@ fun TopRatedTvSeriesSection(
     modifier: Modifier = Modifier,
     viewmodel: TopRatedTvSeriesViewmodel = hiltViewModel(),
 ) {
-    Box(modifier = modifier.height(Dimension.homeSectionHeight).fillMaxWidth()) {
+    Box(modifier = modifier.height(Dimensions.homeSectionHeight).fillMaxWidth()) {
         when (val uiState = viewmodel.uiState) {
             is TopRatedTvSeriesUiState.Success -> ResultView(
                 tvSeriesList = uiState.tvSeriesList,

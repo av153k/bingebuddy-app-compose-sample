@@ -2,6 +2,8 @@
 
 package com.bingebuddy.app.ui.screens.home
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -79,6 +81,7 @@ fun HomeScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreenContent(
     navController: NavHostController, onMovieClicked: (movieId: String) -> Unit,
@@ -136,6 +139,7 @@ fun BottomNavBar(navController: NavHostController, modifier: Modifier = Modifier
                 label = {
                     Text(
                         navItem.label,
+                        style = MaterialTheme.typography.titleMedium
                     )
                 },
                 icon =

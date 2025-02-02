@@ -27,14 +27,14 @@ fun RatingChip(voteAverage: Double?, voteCount: Long?) {
         Icon(
             Icons.Rounded.Star,
             contentDescription = "rating icon",
-            tint = Color.Yellow,
+            tint = Color(0xffC99200),
         )
         Spacer(modifier = Modifier.width(5.dp))
         Text(
             if (voteAverage != 0.0)
 
                 "${DecimalFormat("#.0").format(voteAverage)} (${voteCount})" else "Not rated",
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.labelMedium
         )
     }
 

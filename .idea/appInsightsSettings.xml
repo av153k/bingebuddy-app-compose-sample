@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.bingebuddy.app" />
+                  <option name="mobileSdkAppId" value="1:195832430100:android:ffe8192e4f9fc1676d7101" />
+                  <option name="projectId" value="bingebuddy-75c6f" />
+                  <option name="projectNumber" value="195832430100" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
