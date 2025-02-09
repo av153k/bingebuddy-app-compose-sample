@@ -85,6 +85,7 @@ fun TvSeriesDetailScreen(
                 }
 
                 is TvSeriesDetailUiState.Error -> RetryView(
+                    message = uiState.message,
                     tvSeriesId = uiState.tvSeriesId,
                     onRetry = {
                         viewmodel.getTvSeriesDetails(it!!)
@@ -99,6 +100,7 @@ fun TvSeriesDetailScreen(
 
 @Composable
 private fun RetryView(
+    message: String = "Something went wrong",
     tvSeriesId: String?,
     onRetry: (tvSeriesId: String?) -> Unit, modifier: Modifier = Modifier
 ) {
@@ -108,7 +110,7 @@ private fun RetryView(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Something went wrong", style = MaterialTheme.typography.bodyMedium)
+        Text(message, style = MaterialTheme.typography.bodyMedium)
         if (tvSeriesId != null) {
             Button(
                 onClick = { onRetry(tvSeriesId) }

@@ -7,7 +7,6 @@ import com.bingebuddy.app.data.network.repository.TvSeriesRepository
 import com.bingebuddy.app.data.network.model.DiscoverTvSeriesResultModel
 
 
-
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import coil3.network.HttpException
 import com.bingebuddy.app.AppStateManager
 import com.bingebuddy.app.AppViewmodel
+import com.bingebuddy.app.utils.AsyncResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -25,8 +25,10 @@ import javax.inject.Inject
 const val TAG = "OnTheAirTvSeriesViewmodel"
 
 sealed interface OnTheAirTvSeriesUiState {
-    data class Success(val tvSeriesList: List<DiscoverTvSeriesResultModel>) : OnTheAirTvSeriesUiState
-    data object Error : OnTheAirTvSeriesUiState
+    data class Success(val tvSeriesList: List<DiscoverTvSeriesResultModel>) :
+        OnTheAirTvSeriesUiState
+
+    data class Error(val message: String) : OnTheAirTvSeriesUiState
     data object Loading : OnTheAirTvSeriesUiState
 }
 
@@ -50,17 +52,13 @@ class OnTheAirTvSeriesViewmodel @Inject constructor(
         viewModelScope.launch {
             appStateManager.allowExplicitContents.collect {
                 uiState = OnTheAirTvSeriesUiState.Loading
-                uiState = try {
-                    val discoverResult = tvSeriesRepository.getOnTheAirTV(includeAdult = it)
-                    OnTheAirTvSeriesUiState.Success(
-                        tvSeriesList = discoverResult.results ?: listOf()
+                val result = tvSeriesRepository.getOnTheAirTV(includeAdult = it)
+                uiState = when (result) {
+                    is AsyncResult.Success -> OnTheAirTvSeriesUiState.Success(
+                        result.data.results!!
                     )
-                } catch (e: IOException) {
-                    Timber.tag(TAG).e(e)
-                    OnTheAirTvSeriesUiState.Error
-                } catch (e: HttpException) {
-                    Timber.tag(TAG).e(e)
-                    OnTheAirTvSeriesUiState.Error
+
+                    is AsyncResult.Failure -> OnTheAirTvSeriesUiState.Error(result.exception.message ?: "Something went wrong!!")
                 }
             }
         }

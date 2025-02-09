@@ -2,6 +2,7 @@ package com.bingebuddy.app.ui.screens.discovermovies.trendingmovies
 
 
 import android.os.Build
+import android.os.Message
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -66,6 +67,7 @@ fun ResultView(movies: List<DiscoverMovieResultModel>, onMovieClick : (movieId: 
 
 @Composable
 fun RetryView(
+    message: String = "Something went wrong",
     onRetry: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -76,7 +78,7 @@ fun RetryView(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Something went wrong", style = MaterialTheme.typography.bodyMedium,)
+            Text(message, style = MaterialTheme.typography.bodyMedium,)
             Button(
                 onClick = onRetry
             ) {

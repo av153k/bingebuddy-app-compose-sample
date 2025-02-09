@@ -10,6 +10,7 @@ import coil3.network.HttpException
 import com.bingebuddy.app.data.network.repository.TvSeriesRepository
 import com.bingebuddy.app.data.network.model.TvSeriesDetailsModel
 import com.bingebuddy.app.ui.screens.discovertvseries.airingtodaytvseries.TAG
+import com.bingebuddy.app.utils.AsyncResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 sealed interface TvSeriesDetailUiState {
     data class Success(val tvSeriesDetails: TvSeriesDetailsModel) : TvSeriesDetailUiState
-    data class Error(val tvSeriesId: String?) : TvSeriesDetailUiState
+    data class Error(val tvSeriesId: String?, val message: String = "Something went wrong") : TvSeriesDetailUiState
     data object Loading : TvSeriesDetailUiState
 }
 
@@ -46,17 +47,11 @@ class TvSeriesDetailsViewmodel @Inject constructor(
     fun getTvSeriesDetails(tvSeriesId: String) {
         viewModelScope.launch {
             uiState = TvSeriesDetailUiState.Loading
-            uiState = try {
-                val result = repository.getTvSeriesDetails(tvSeriesId)
-                TvSeriesDetailUiState.Success(
-                    tvSeriesDetails = result
-                )
-            } catch (e: IOException) {
-                Timber.tag(TAG).e(e)
-                TvSeriesDetailUiState.Error(tvSeriesId)
-            } catch (e: HttpException) {
-                Timber.tag(TAG).e(e)
-                TvSeriesDetailUiState.Error(tvSeriesId)
+            val result = repository.getTvSeriesDetails(tvSeriesId)
+            uiState = when(result) {
+                is AsyncResult.Success -> TvSeriesDetailUiState.Success(result.data)
+                is AsyncResult.Failure -> TvSeriesDetailUiState.Error(tvSeriesId, result.exception.message ?: "Something went wrong")
+
             }
         }
     }

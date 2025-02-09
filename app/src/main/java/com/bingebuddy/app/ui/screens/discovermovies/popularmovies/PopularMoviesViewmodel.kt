@@ -11,6 +11,7 @@ import com.bingebuddy.app.AppStateManager
 import com.bingebuddy.app.AppViewmodel
 import com.bingebuddy.app.data.network.repository.MoviesRepository
 import com.bingebuddy.app.data.network.model.DiscoverMovieResultModel
+import com.bingebuddy.app.utils.AsyncResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -21,7 +22,7 @@ const val TAG = "PopularMoviesViewModel"
 
 sealed interface PopularMoviesUiState {
     data class Success(val movies: List<DiscoverMovieResultModel>) : PopularMoviesUiState
-    data object Error : PopularMoviesUiState
+    data class Error(val message: String = "Something went wrong") : PopularMoviesUiState
     data object Loading : PopularMoviesUiState
 }
 
@@ -42,20 +43,15 @@ class PopularMoviesViewmodel @Inject constructor(
     fun getPopularMovies() {
         viewModelScope.launch {
             appStateManager.allowExplicitContents.collect {
-            uiState = PopularMoviesUiState.Loading
-            uiState = try {
-                val discoverResult = moviesRepository.getPopularMovies(includeAdult = it)
-                PopularMoviesUiState.Success(
-                    movies = discoverResult.results ?: listOf()
-                )
-            } catch (e: IOException) {
-                Timber.tag(TAG).e(e)
-                PopularMoviesUiState.Error
-            } catch (e: HttpException) {
-                Timber.tag(TAG).e(e)
-                PopularMoviesUiState.Error
+                uiState = PopularMoviesUiState.Loading
+                val result = moviesRepository.getPopularMovies(includeAdult = it)
+                uiState = when (result) {
+                    is AsyncResult.Success -> PopularMoviesUiState.Success(result.data.results!!)
+                    is AsyncResult.Failure -> PopularMoviesUiState.Error(
+                        result.exception.message ?: "Something went wrong"
+                    )
+                }
             }
-        }
         }
     }
 

@@ -1,5 +1,7 @@
 package com.bingebuddy.app.ui.screens.discovertvseries
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,6 +15,7 @@ import com.bingebuddy.app.ui.screens.discovertvseries.populartvseries.PopularTvS
 import com.bingebuddy.app.ui.screens.discovertvseries.topratedtvseries.TopRatedTvSeriesSection
 import com.bingebuddy.app.ui.screens.discovertvseries.trendingtvseries.TrendingTvSeriesSection
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DiscoverTvSeriesScreen(
     onTvSeriesClicked: (tvSeriesId: String) -> Unit,

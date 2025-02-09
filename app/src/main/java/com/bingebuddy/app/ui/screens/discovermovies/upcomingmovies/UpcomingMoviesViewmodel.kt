@@ -13,6 +13,7 @@ import com.bingebuddy.app.AppStateManager
 import com.bingebuddy.app.AppViewmodel
 import com.bingebuddy.app.data.network.repository.MoviesRepository
 import com.bingebuddy.app.data.network.model.DiscoverMovieResultModel
+import com.bingebuddy.app.utils.AsyncResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -23,7 +24,7 @@ const val TAG = "UpcomingMoviesViewModel"
 
 sealed interface UpcomingMoviesUiState {
     data class Success(val movies: List<DiscoverMovieResultModel>) : UpcomingMoviesUiState
-    data object Error : UpcomingMoviesUiState
+    data class Error(val message: String = "Something went wrong") : UpcomingMoviesUiState
     data object Loading : UpcomingMoviesUiState
 }
 
@@ -47,17 +48,11 @@ class UpcomingMoviesViewmodel @Inject constructor(
         viewModelScope.launch {
             appStateManager.allowExplicitContents.collect {
                 uiState = UpcomingMoviesUiState.Loading
-                uiState = try {
-                    val discoverResult = moviesRepository.getUpcomingMovies(includeAdult = it)
-                    UpcomingMoviesUiState.Success(
-                        movies = discoverResult.results ?: listOf()
-                    )
-                } catch (e: IOException) {
-                    Timber.tag(TAG).e(e)
-                    UpcomingMoviesUiState.Error
-                } catch (e: HttpException) {
-                    Timber.tag(TAG).e(e)
-                    UpcomingMoviesUiState.Error
+                val result = moviesRepository.getUpcomingMovies(includeAdult = it)
+                uiState = when (result) {
+                    is AsyncResult.Success -> UpcomingMoviesUiState.Success(result.data.results!!)
+                    is AsyncResult.Failure -> UpcomingMoviesUiState.Error(result.exception.message ?: "Something went wrong")
+
                 }
             }
         }

@@ -10,6 +10,7 @@ import coil3.network.HttpException
 import com.bingebuddy.app.data.network.repository.MovieDetailsRepository
 import com.bingebuddy.app.data.network.model.MovieDetailsModel
 import com.bingebuddy.app.ui.screens.discovertvseries.airingtodaytvseries.TAG
+import com.bingebuddy.app.utils.AsyncResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 sealed interface MovieDetailUiState {
     data class Success(val movieDetails: MovieDetailsModel): MovieDetailUiState
-    data class Error(val movieId: String?): MovieDetailUiState
+    data class Error(val movieId: String?, val message: String): MovieDetailUiState
     data object Loading: MovieDetailUiState
 }
 
@@ -39,7 +40,7 @@ class MovieDetailsViewmodel @Inject constructor(
         if (movieId != null) {
             getMovieDetails(movieId)
         } else {
-            uiState = MovieDetailUiState.Error(null)
+            uiState = MovieDetailUiState.Error(null, "Something went wrong")
         }
 
     }
@@ -47,18 +48,16 @@ class MovieDetailsViewmodel @Inject constructor(
     fun getMovieDetails(movieId: String) {
         viewModelScope.launch {
             uiState = MovieDetailUiState.Loading
-            uiState = try {
-                val result = repository.getMovieDetails(movieId)
-                MovieDetailUiState.Success(
-                    movieDetails = result
-                )
-            } catch (e: IOException) {
-                Timber.tag(TAG).e(e)
-                MovieDetailUiState.Error(movieId)
-            } catch (e: HttpException) {
-                Timber.tag(TAG).e(e)
-                MovieDetailUiState.Error(movieId)
+            val result = repository.getMovieDetails(movieId)
+            uiState = when (result) {
+                is AsyncResult.Success -> {
+                    MovieDetailUiState.Success(result.data)
+                }
+                is AsyncResult.Failure -> {
+                    MovieDetailUiState.Error(movieId, result.exception.message ?: "Something went wrong")
+                }
             }
+
         }
     }
 }

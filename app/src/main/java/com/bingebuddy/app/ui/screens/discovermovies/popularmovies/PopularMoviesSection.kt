@@ -38,6 +38,7 @@ fun PopularMoviesSection(
             )
 
             is PopularMoviesUiState.Error -> RetryView(
+                message = uiState.message,
                 onRetry = viewmodel::getPopularMovies
             )
             is PopularMoviesUiState.Loading -> LoadingView()
@@ -63,6 +64,7 @@ fun ResultView(movies: List<DiscoverMovieResultModel>, onMovieClick : (movieId: 
 
 @Composable
 fun RetryView(
+    message: String = "Something went wrong",
     onRetry: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -73,7 +75,7 @@ fun RetryView(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Something went wrong", style = MaterialTheme.typography.bodyMedium,)
+            Text(message, style = MaterialTheme.typography.bodyMedium,)
             Button(
                 onClick = onRetry
             ) {

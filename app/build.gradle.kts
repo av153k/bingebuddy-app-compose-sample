@@ -80,12 +80,16 @@ dependencies {
 
     // Room
     implementation(libs.androidx.room.runtime)
-    implementation(libs.firebase.auth)
     ksp(libs.androidx.room.compiler)
     annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
     ksp(libs.hilt.compiler)
+
+    // Firebase
+    val firebaseBom =  platform(libs.firebase.bom)
+    implementation(firebaseBom)
+    implementation(libs.firebase.auth)
 
     //coil
     implementation(libs.coil.compose)

@@ -125,6 +125,7 @@ fun SearchScreen(
                     when (val uiState = viewmodel.uiState) {
                         is SearchUiState.Error -> RetryView(
                             query = searchText,
+                            message = uiState.message,
                             onRetry = {
 
                             }
@@ -344,6 +345,7 @@ private fun SearchResultCard(
 
 @Composable
 private fun RetryView(
+    message: String = "Something went wrong",
     query: String?,
     onRetry: (query: String?) -> Unit, modifier: Modifier = Modifier
 ) {
@@ -353,7 +355,7 @@ private fun RetryView(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Something went wrong", style = MaterialTheme.typography.bodyMedium)
+        Text(message, style = MaterialTheme.typography.bodyMedium)
         if (query != null) {
             Button(
                 onClick = { onRetry(query) }

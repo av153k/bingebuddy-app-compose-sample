@@ -94,6 +94,7 @@ fun MovieDetailScreen(
                 }
 
                 is MovieDetailUiState.Error -> RetryView(
+                    message = uiState.message,
                     movieId = uiState.movieId,
                     onRetry = {
                         viewmodel.getMovieDetails(it!!)
@@ -108,6 +109,7 @@ fun MovieDetailScreen(
 
 @Composable
 private fun RetryView(
+    message: String = "Something went wrong",
     movieId: String?,
     onRetry: (movieId: String?) -> Unit, modifier: Modifier = Modifier
 ) {

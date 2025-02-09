@@ -37,6 +37,7 @@ fun TrendingTvSeriesSection(
             )
 
             is TrendingTvSeriesUiState.Error -> RetryView(
+                message = uiState.message,
                 onRetry = viewmodel::getTrendingTvSeries
             )
             is TrendingTvSeriesUiState.Loading -> LoadingView()
@@ -62,6 +63,7 @@ private fun ResultView(tvSeriesList: List<DiscoverTvSeriesResultModel>, onTvSeri
 
 @Composable
 private fun RetryView(
+    message: String = "Something went wrong",
     onRetry: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {

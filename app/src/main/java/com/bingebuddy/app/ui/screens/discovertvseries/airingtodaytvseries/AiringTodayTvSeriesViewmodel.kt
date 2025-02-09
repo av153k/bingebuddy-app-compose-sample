@@ -16,6 +16,7 @@ import androidx.lifecycle.viewModelScope
 import coil3.network.HttpException
 import com.bingebuddy.app.AppStateManager
 import com.bingebuddy.app.AppViewmodel
+import com.bingebuddy.app.utils.AsyncResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -26,7 +27,7 @@ const val TAG = "AiringTodayTvSeriesViewmodel"
 
 sealed interface AiringTodayTvSeriesUiState {
     data class Success(val tvSeriesList: List<DiscoverTvSeriesResultModel>) : AiringTodayTvSeriesUiState
-    data object Error : AiringTodayTvSeriesUiState
+    data class Error(val message: String) : AiringTodayTvSeriesUiState
     data object Loading : AiringTodayTvSeriesUiState
 }
 
@@ -50,18 +51,13 @@ class AiringTodayTvSeriesViewmodel @Inject constructor(
         viewModelScope.launch {
             appStateManager.allowExplicitContents.collect {
                 uiState = AiringTodayTvSeriesUiState.Loading
-                uiState = try {
-                    val discoverResult =
-                        tvSeriesRepository.getAiringTodayTV(includeAdult = it)
-                    AiringTodayTvSeriesUiState.Success(
-                        tvSeriesList = discoverResult.results ?: listOf()
+                val result = tvSeriesRepository.getAiringTodayTV(includeAdult = it)
+                uiState = when (result) {
+                    is AsyncResult.Success -> AiringTodayTvSeriesUiState.Success(
+                        result.data.results!!
                     )
-                } catch (e: IOException) {
-                    Timber.tag(TAG).e(e)
-                    AiringTodayTvSeriesUiState.Error
-                } catch (e: HttpException) {
-                    Timber.tag(TAG).e(e)
-                    AiringTodayTvSeriesUiState.Error
+
+                    is AsyncResult.Failure -> AiringTodayTvSeriesUiState.Error(result.exception.message ?: "Something went wrong!!")
                 }
             }
         }

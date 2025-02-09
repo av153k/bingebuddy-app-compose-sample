@@ -6,13 +6,17 @@ import com.bingebuddy.app.data.local.AppDatabase
 import com.bingebuddy.app.data.local.model.WatchlistItem
 import com.bingebuddy.app.data.local.repository.WatchlistItemDao
 import com.bingebuddy.app.data.local.repository.WatchlistRepository
+import com.bingebuddy.app.data.network.repository.AccountRepository
 import com.bingebuddy.app.data.network.repository.MovieDetailsRepository
 import com.bingebuddy.app.data.network.repository.MoviesRepository
+import com.bingebuddy.app.data.network.repository.SearchRepository
 import com.bingebuddy.app.data.network.repository.TvSeriesRepository
 import com.bingebuddy.app.network.ApiKeyInterceptor
 import com.bingebuddy.app.network.TmdbApiService
 import com.bingebuddy.app.utils.PreferencesManager
+import com.google.firebase.auth.FirebaseAuth
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,7 +36,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePreferencesManager(@ApplicationContext context: Context) = PreferencesManager(context)
+    fun providePreferencesManager(@ApplicationContext context: Context) =
+        PreferencesManager(context)
 
     @Provides
     fun provideAppStateManager(prefsManager: PreferencesManager) = AppStateManager(prefsManager)
@@ -61,18 +66,30 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMovieRepository(apiService: TmdbApiService) =
-        MoviesRepository(tmdbApiService = apiService)
+    fun provideMovieRepository(apiService: TmdbApiService, @ApplicationContext context: Context) =
+        MoviesRepository(tmdbApiService = apiService, context)
 
     @Provides
     @Singleton
-    fun provideTvSeriesRepository(apiService: TmdbApiService) =
-        TvSeriesRepository(tmdbApiService = apiService)
+    fun provideTvSeriesRepository(
+        apiService: TmdbApiService,
+        @ApplicationContext context: Context
+    ) =
+        TvSeriesRepository(tmdbApiService = apiService, context)
 
     @Provides
     @Singleton
-    fun provideMovieDetailsRepository(apiService: TmdbApiService) =
-        MovieDetailsRepository(tmdbApiService = apiService)
+    fun provideMovieDetailsRepository(
+        apiService: TmdbApiService,
+        @ApplicationContext context: Context
+    ) =
+        MovieDetailsRepository(tmdbApiService = apiService, context)
+
+    @Provides
+    @Singleton
+    fun provideSearchRepository(apiService: TmdbApiService, @ApplicationContext context: Context) =
+        SearchRepository(tmdbApiService = apiService, context)
+
 
     @Provides
     @Singleton
@@ -90,7 +107,12 @@ object AppModule {
     fun provideWatchlistRepository(watchlistItemDao: WatchlistItemDao): WatchlistRepository {
         return WatchlistRepository(watchlistItemDao)
     }
+
+    @Provides
+    fun provideAccountRepository(@ApplicationContext context: Context) = AccountRepository(auth = FirebaseAuth.getInstance(), context = context)
 }
+
+
 
 
 

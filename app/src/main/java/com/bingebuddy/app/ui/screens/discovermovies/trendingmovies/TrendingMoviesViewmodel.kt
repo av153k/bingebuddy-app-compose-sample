@@ -14,6 +14,7 @@ import com.bingebuddy.app.AppStateManager
 import com.bingebuddy.app.AppViewmodel
 import com.bingebuddy.app.data.network.repository.MoviesRepository
 import com.bingebuddy.app.data.network.model.DiscoverMovieResultModel
+import com.bingebuddy.app.utils.AsyncResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -49,18 +50,12 @@ class TrendingMoviesViewmodel @Inject constructor(
         viewModelScope.launch {
             appStateManager.allowExplicitContents.collect {
                 uiState = TrendingMoviesUiState.Loading
-                uiState = try {
-                    val discoverResult = moviesRepository.getTrendingMoviesWeek(includeAdult = it)
-                    TrendingMoviesUiState.Success(
-                        movies = discoverResult.results ?: listOf()
-                    )
-                } catch (e: IOException) {
-                    Timber.tag(TAG).e(e)
-                    TrendingMoviesUiState.Error
-                } catch (e: HttpException) {
-                    Timber.tag(TAG).e(e)
-                    TrendingMoviesUiState.Error
+               val result = moviesRepository.getTrendingMoviesWeek(includeAdult = it)
+                uiState = when (result) {
+                    is AsyncResult.Success -> TrendingMoviesUiState.Success(result.data.results!!)
+                    is AsyncResult.Failure -> TrendingMoviesUiState.Error
                 }
+
             }
         }
     }

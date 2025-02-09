@@ -41,6 +41,7 @@ fun AiringTodayTvSeriesSection(
             )
 
             is AiringTodayTvSeriesUiState.Error -> RetryView(
+                message = uiState.message,
                 onRetry = viewmodel::getAiringTodayTvSeries
             )
             is AiringTodayTvSeriesUiState.Loading -> LoadingView()
@@ -66,6 +67,7 @@ private fun ResultView(tvSeriesList: List<DiscoverTvSeriesResultModel>, onTvSeri
 
 @Composable
 private fun RetryView(
+    message: String = "Something went wrong",
     onRetry: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -76,7 +78,7 @@ private fun RetryView(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Something went wrong", style = MaterialTheme.typography.bodyMedium,)
+            Text(message, style = MaterialTheme.typography.bodyMedium,)
             Button(
                 onClick = onRetry
             ) {
